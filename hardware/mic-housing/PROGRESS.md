@@ -27,12 +27,18 @@ open("fusion_build.py", "w").write("\n\n\n".join(out) + "\n")
 EOF
 ```
 
+**The build now targets an existing document.** `99_run.py` requires
+`AvianVisitors reducing-tee station` (project *Jigs*, part number
+`2026-08-09-15-43-34-211`) to be the active document, clears its root, rebuilds,
+and saves a new version. It refuses to run against anything else rather than
+overwrite the wrong file or leave Untitled documents behind. Open the document
+first - the MCP `document` / `open` operation takes its lineage URN.
+
 `00_common.py` supplies the module docstring, imports, `PARAMS` and the
 helpers; `NN_*.py` each supply one `build_*` function; `98_render.py` supplies
 appearances and rendering; `99_run.py` supplies `run()`. **Edit the part files,
 not the assembled script.** Run it through the Fusion MCP with
-`featureType: "script"`; it creates its own fresh design document each time, so
-it is safe to re-run. It does not save the document.
+`featureType: "script"`.
 
 ## Design decision
 
@@ -173,6 +179,9 @@ Fusion 2704.1.36.
 * Cylinders whose axis runs along **X** cannot use the verified XZ-sketch
   conventions (those extrude +Y). Revolve a profile about a sketch line instead:
   that needs only an XY sketch and no new axis-mapping facts.
+* `rootComponent.name` is bound to the document name and **raises** if assigned
+  (`root component name cannot be changed`). `rootComponent.partNumber` is
+  settable, and is where a part number belongs.
 * Heat-set inserts are dimensioned from the supplier datasheet, not from habit.
   CNC Kitchen M3 x 3 short: 4.6 body, 3.0 long, 4.0 hole, 4.0 minimum blind
   depth, 1.6 minimum wall. `build_pi_sled` asserts both the wall rule and the
