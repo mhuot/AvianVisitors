@@ -102,6 +102,13 @@ Everything outside `avian/` and `frame/` is upstream BirdNET-Pi.
 
 ---
 
+## Running the mic outdoors
+
+Mounting the capsule outside in a cold climate takes some care — hood not enclosure,
+windscreen, and a few settings changes. See [outdoor deployment](docs/outdoor-deployment.md).
+
+---
+
 ## Wall frame
 
 An optional e-ink frame mirrors the last 24h of birds onto a panel by your window. Build it from [`frame/`](frame/README.md). It can run off your own BirdNET mic, or standalone from BirdWeather data for any ZIP code with no mic at all.
