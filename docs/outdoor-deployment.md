@@ -24,6 +24,19 @@ past ~5 m on a line-level mic pick up noise.
 
 ---
 
+## Parts
+
+| Qty | Part | Approx | Notes |
+|-----|------|--------|-------|
+| 1 | 1½" PVC DWV 90° street elbow | ~$3 | Any hardware store. The mic housing. |
+| 1 | Furry windjammer for lav capsule | ~$20 | Røde MiniFur-Lav or Bubblebee Windbubble. Matters more than the housing. |
+| 4 | GORE GAW112 acoustic vent | $10/set | [GroupGets][groupgets], sold as AudioMoth spares. |
+| 1 | Stainless mesh or nylon stocking | ~$0 | Bug screen for the mouth. |
+| 1 | Conduit strap or hose clamp | ~$2 | Soffit mount. |
+| — | Exterior latex primer + light paint | ~$0 | PVC chalks under UV; light colour cuts solar gain. |
+
+Optional printed parts in ASA — see [printed parts](#printed-parts).
+
 ## Mounting the capsule
 
 A microphone needs an opening, so a sealed waterproof enclosure is the wrong tool — it
@@ -35,13 +48,95 @@ is a **hood**: open at the bottom, sheds rain, passes sound.
 - **Never point the capsule up.** Down or horizontal only.
 - **Under an eave or soffit**, 6–8 ft up, set back from the drip line so icicles don't
   form on it and so roof-shed snow doesn't bury it.
-- **Cover the mouth** with something acoustically transparent and hydrophobic — nylon
-  stocking works, expanded-PTFE membrane is better. Keeps out rain, spiders, and
-  box elder bugs.
+- **Screen the mouth** with stainless mesh or a nylon stocking. This is a bug and debris
+  screen only — spiders and box elder bugs will move in otherwise. The elbow geometry is
+  what rejects rain; the screen has no acoustic job to do.
 - **Never seal the capsule in a bag or airtight box.** It traps condensation and
   muffles the sound. Breathable and water-shedding beats sealed, every time.
+- **Never cap the mouth.** See [why the tube stays open](#why-the-tube-stays-open).
 - **Drip loop** in the cable below the entry point. Slope the wall pass-through downward
   toward the outside and seal it at the outer face.
+
+### Waterproofing the capsule itself
+
+Protect the capsule with an acoustic vent — an ePTFE membrane that passes sound while
+blocking liquid water. It goes **directly on the capsule port**, never across the tube
+mouth.
+
+Cheapest retail source: [GroupGets sells four GORE GAW112 vents for $10][groupgets],
+listed as spares for the AudioMoth USB Microphone Case. AudioMoth is a bioacoustic
+recorder, so these are already proven for outdoor wildlife audio. Adhesive-backed, no
+minimum order.
+
+That part is Gore's dust-and-splash grade. If you want the immersion-rated ePTFE, ask
+Gore or their distributor Sealing Devices for **GAW334** samples — IP67/IP68, 0.31 mm
+thick, oleophobic:
+
+| Inner Ø | Outer Ø | Part number   |
+|---------|---------|---------------|
+| 1.6 mm  | 3.2 mm  | GAW3341.63.2  |
+| 2.0 mm  | 3.6 mm  | GAW3342.03.6  |
+| 2.4 mm  | 5.0 mm  | GAW3342.45.0  |
+| 3.0 mm  | 6.0 mm  | GAW3343.06.0  |
+
+Under an eave, splash grade is plenty. IP68 is for phones dropped in toilets.
+
+Two things worth knowing from the [GAW334 datasheet][gaw334]:
+
+- Transmission loss is **under 2 dB at 1 kHz**, and the loss is concentrated at the low
+  end — about 3 dB down at 100 Hz, converging to near zero by 10 kHz. The membrane is a
+  gentle high-pass, so it attenuates wind rumble while passing song untouched. It works
+  *with* the windjammer.
+- The acrylic adhesive is rated **-40 to 85 °C**. A -35 °F night is -37 °C, so you are
+  inside spec but not by much. Apply it on a warm day, press hard, and add a mechanical
+  backup (a wrap of self-amalgamating tape) rather than trusting adhesive alone for
+  five winters.
+
+Note these vents are **tiny** — 1.6-3.0 mm inner diameter. They cover a microphone port,
+not an opening. If your lav has a domed metal grille there is nowhere for the adhesive to
+seal; see the printed vent carrier below.
+
+### Why the tube stays open
+
+It is tempting to cap the elbow with a printed disc carrying a few acoustic vents. Don't.
+That turns the tube into a Helmholtz resonator — an ~80 cm³ cavity venting through
+millimetre-scale necks:
+
+```
+f = (c/2π)·√(A / (V·L_eff))
+  = 54.6 · √(7.07e-6 / (8e-5 · 4.55e-3))  ≈  240 Hz
+```
+
+Resonance lands near 240 Hz and the response rolls off ~12 dB/octave above it. Song at
+4 kHz is four octaves up — roughly 45-50 dB down. More ports don't rescue it either;
+frequency scales with the square root of open area, so clearing the song band would take
+about a thousand times more area than these vents can give.
+
+The membrane belongs on the capsule, where the volume behind it is a fraction of a cubic
+millimetre and resonance stays ultrasonic. That is how phones do it.
+
+### Printed parts
+
+Printing is worth it, for holders rather than covers:
+
+- **Vent carrier** — a boss with a single 2-3 mm through-hole. The vent seals to its flat
+  outer face, the capsule presses against the back. This gives a domed lav grille the
+  flat sealing surface it otherwise lacks, with negligible trapped volume.
+- **Capsule holder** that press-fits the 1½" ID and centres the mic. Build it as spokes
+  or webbing, ≥80% open — never a solid disc.
+- **Retainer ring** at the mouth to hold the bug mesh.
+- **Drip lip** extending the mouth 10-15 mm against wind-driven rain.
+
+Print in **ASA**. PLA's glass transition is ~60 °C and a dark part in July sun will pass
+it, quite apart from having no UV life; PETG is an acceptable second with some yellowing.
+Run 4+ perimeters — layer lines are capillary paths for water.
+
+**Decouple the capsule.** A rigid printed holder conducts structure-borne noise straight
+from the tube into the mic, so rain strikes and wind buffeting arrive as thumps. Seat the
+capsule in a short length of silicone tubing inside the holder.
+
+[groupgets]: https://groupgets.com/products/set-of-four-splashproof-acoustic-vents-for-the-audiomoth-usb-microphone-case
+[gaw334]: https://groupgets-files.s3.amazonaws.com/AudioMoth/GORE-Acoustic-Vent-GAW334-Datasheet-en.pdf
 
 ### Enclosure materials, if you build one anyway
 
