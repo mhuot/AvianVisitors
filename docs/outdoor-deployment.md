@@ -43,6 +43,11 @@ A microphone needs an opening, so a sealed waterproof enclosure is the wrong too
 muffles high frequencies and adds box resonance, exactly where song lives. What you want
 is a **hood**: open at the bottom, sheds rain, passes sound.
 
+![Section through the mic housing: a 1½" PVC DWV 90° elbow with the mouth facing down,
+a lavalier capsule recessed about 32 mm up inside behind a GORE acoustic vent on a
+printed carrier, a printed spoked holder above it, bug mesh and retainer at the mouth,
+and a printed drip lip outside.](img/mic-housing-section.svg)
+
 - **A 1½" PVC 90° elbow** is the standard cheap answer. Capsule recessed inside the
   horizontal leg, opening facing down.
 - **Never point the capsule up.** Down or horizontal only.

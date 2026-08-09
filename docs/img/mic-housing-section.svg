@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 720" width="1040" height="720" role="img" aria-labelledby="title desc">
+  <title id="title">Outdoor mic housing, section view</title>
+  <desc id="desc">Section through a 1.5 inch PVC DWV 90 degree elbow used as a microphone hood. The mouth points down and stays open. A lavalier capsule sits recessed about 32 mm up inside, held by a printed spoked holder, with a GORE acoustic vent on a printed carrier over the capsule face and a furry windjammer around it. Bug mesh and a retainer ring sit at the mouth, with a printed drip lip outside. The cable runs up through the bend and out the horizontal leg.</desc>
+
+  <style>
+    .bgfill   { fill: #ffffff; }
+    .borefill { stroke: #ffffff; }
+    .pvc      { stroke: #d8dce1; }
+    .pvc-f    { fill:   #d8dce1; }
+    .hub      { stroke: #c3c8cf; }
+    .edge     { stroke: #5b6470; }
+    .printed-f{ fill:   #2f9e68; }
+    .printed-s{ stroke: #2f9e68; }
+    .capsule-f{ fill:   #3f4652; }
+    .fur-s    { stroke: #b08968; }
+    .fur-f    { fill:   #b08968; }
+    .vent-f   { fill:   #d9682b; }
+    .vent-s   { stroke: #d9682b; }
+    .cable-s  { stroke: #4b5563; }
+    .mesh-s   { stroke: #8b93a1; }
+    .label    { fill:   #1f2430; }
+    .sub      { fill:   #6b7280; }
+    .lead     { stroke: #9aa1ad; }
+    .dim      { stroke: #9aa1ad; }
+    .dimf     { fill:   #9aa1ad; }
+
+    @media (prefers-color-scheme: dark) {
+      .bgfill   { fill: #14161a; }
+      .borefill { stroke: #14161a; }
+      .pvc      { stroke: #3a4048; }
+      .pvc-f    { fill:   #3a4048; }
+      .hub      { stroke: #4a515b; }
+      .edge     { stroke: #98a2b3; }
+      .printed-f{ fill:   #4ade80; }
+      .printed-s{ stroke: #4ade80; }
+      .capsule-f{ fill:   #cbd5e1; }
+      .fur-s    { stroke: #c39a75; }
+      .fur-f    { fill:   #c39a75; }
+      .vent-f   { fill:   #fb923c; }
+      .vent-s   { stroke: #fb923c; }
+      .cable-s  { stroke: #9ca3af; }
+      .mesh-s   { stroke: #6b7280; }
+      .label    { fill:   #e5e7eb; }
+      .sub      { fill:   #9ca3af; }
+      .lead     { stroke: #6b7280; }
+      .dim      { stroke: #6b7280; }
+      .dimf     { fill:   #6b7280; }
+    }
+
+    text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .t-title { font-size: 23px; font-weight: 600; }
+    .t-sub   { font-size: 14px; }
+    .t-lab   { font-size: 15px; }
+    .t-small { font-size: 13px; }
+  </style>
+
+  <defs>
+    <pattern id="meshpat" width="9" height="9" patternUnits="userSpaceOnUse">
+      <path d="M0,0 L9,9 M9,0 L0,9" class="mesh-s" stroke-width="1.1" fill="none"/>
+    </pattern>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
+      <path d="M0,1.2 L7,4.5 L0,7.8 z" class="dimf"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bgfill"/>
+
+  <text x="40" y="48" class="label t-title">Outdoor mic housing — section</text>
+  <text x="40" y="72" class="sub t-sub">1½&#8243; PVC DWV 90° elbow. Mouth down, and open.</text>
+
+  <!-- Printed drip lip. Drawn first so the pipe overlaps its inner half. -->
+  <path d="M 360,630 V 598" class="printed-s" stroke-width="196" stroke-linecap="butt" fill="none" opacity="0.4"/>
+
+  <!-- Pipe wall: a thick stroke along the centreline, with a slightly wider
+       stroke beneath it standing in for the outline. -->
+  <path d="M 360,620 V 330 A 150,150 0 0 1 510,180 H 990" class="edge" stroke-width="173" stroke-linecap="butt" fill="none"/>
+  <path d="M 360,620 V 330 A 150,150 0 0 1 510,180 H 990" class="pvc"  stroke-width="170" stroke-linecap="butt" fill="none"/>
+
+  <!-- Hub at the cable end -->
+  <path d="M 990,180 H 945" class="hub" stroke-width="186" stroke-linecap="butt" fill="none"/>
+
+  <!-- Bore, carved back out of the wall -->
+  <path d="M 360,634 V 330 A 150,150 0 0 1 510,180 H 990" class="edge"     stroke-width="147" stroke-linecap="butt" fill="none"/>
+  <path d="M 360,634 V 330 A 150,150 0 0 1 510,180 H 990" class="borefill" stroke-width="144" stroke-linecap="butt" fill="none"/>
+
+  <!-- Printed capsule holder: ring at the bore, hub at the centre, spokes between. -->
+  <rect x="288" y="440" width="14" height="22" class="printed-f"/>
+  <rect x="418" y="440" width="14" height="22" class="printed-f"/>
+  <rect x="342" y="440" width="7"  height="22" class="printed-f"/>
+  <rect x="371" y="440" width="7"  height="22" class="printed-f"/>
+  <rect x="302" y="447" width="40" height="8"  class="printed-f" opacity="0.75"/>
+  <rect x="378" y="447" width="40" height="8"  class="printed-f" opacity="0.75"/>
+
+  <!-- Windjammer: foam plus fur, drawn as a soft envelope around the capsule. -->
+  <ellipse cx="360" cy="489" rx="32" ry="30" class="fur-f" opacity="0.18"/>
+  <ellipse cx="360" cy="489" rx="32" ry="30" class="fur-s" fill="none" stroke-width="2" stroke-dasharray="3 4"/>
+  <g class="fur-s" stroke-width="1.5" opacity="0.75">
+    <path d="M328,478 l-8,-3 M328,489 l-9,0 M328,500 l-8,3"/>
+    <path d="M392,478 l8,-3 M392,489 l9,0 M392,500 l8,3"/>
+    <path d="M342,464 l-4,-7 M360,459 l0,-8 M378,464 l4,-7"/>
+    <path d="M342,514 l-4,7 M360,519 l0,8 M378,514 l4,7"/>
+  </g>
+
+  <!-- Lavalier capsule -->
+  <rect x="349" y="462" width="22" height="53" rx="3" class="capsule-f"/>
+
+  <!-- Printed vent carrier with the acoustic vent across its outer face -->
+  <rect x="342" y="515" width="14" height="11" class="printed-f"/>
+  <rect x="364" y="515" width="14" height="11" class="printed-f"/>
+  <rect x="342" y="526" width="36" height="4"  class="vent-f"/>
+  <path d="M356,515 h8" class="vent-s" stroke-width="2.5" fill="none"/>
+
+  <!-- Bug mesh and its retainer ring -->
+  <rect x="288" y="575" width="14" height="14" class="printed-f"/>
+  <rect x="418" y="575" width="14" height="14" class="printed-f"/>
+  <rect x="302" y="578" width="116" height="8" fill="url(#meshpat)"/>
+
+  <!-- Cable, following the same centreline out of the cable leg -->
+  <path d="M 360,462 V 330 A 150,150 0 0 1 510,180 H 1010" class="cable-s" stroke-width="11" fill="none" stroke-linecap="round"/>
+
+  <!-- Recess dimension -->
+  <path d="M470,515 V620" class="dim" stroke-width="1.4" fill="none" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M445,515 H478 M445,620 H478" class="dim" stroke-width="1" fill="none" opacity="0.7"/>
+  <text x="486" y="572" class="sub t-small">≈32 mm recess</text>
+
+  <!-- Leaders -->
+  <g class="lead" stroke-width="1.3" fill="none">
+    <path d="M232,451 H284"/>
+    <path d="M232,582 H284"/>
+    <path d="M232,628 H300"/>
+    <path d="M196,306 L282,322"/>
+    <path d="M575,356 L374,478"/>
+    <path d="M575,406 L400,494"/>
+    <path d="M575,456 L380,522"/>
+    <path d="M900,60  L962,88"/>
+    <path d="M556,668 L400,640"/>
+  </g>
+
+  <g class="label t-lab">
+    <text x="226" y="456" text-anchor="end">Capsule holder — printed</text>
+    <text x="226" y="587" text-anchor="end">Bug mesh + retainer</text>
+    <text x="226" y="633" text-anchor="end">Drip lip — printed</text>
+    <text x="190" y="311" text-anchor="end">1½&#8243; PVC DWV elbow</text>
+    <text x="582" y="361">Lavalier capsule</text>
+    <text x="582" y="411">Windjammer — foam + fur</text>
+    <text x="582" y="461">GORE acoustic vent</text>
+    <text x="640" y="55">Cable exit — silicone seal, drip loop outside</text>
+    <text x="562" y="673">Mouth faces down, and is never capped</text>
+  </g>
+
+  <g class="sub t-small">
+    <text x="582" y="379">6 × 15 mm, sealed electret</text>
+    <text x="582" y="479">on printed carrier, 2.4 mm port</text>
+    <text x="226" y="472" text-anchor="end">≥80% open — never a solid disc</text>
+    <text x="562" y="691">a sealed cavity resonates near 240 Hz</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(40,650)">
+    <rect x="0"   y="0" width="16" height="12" class="pvc-f"/>
+    <text x="24"  y="10" class="sub t-small">purchased</text>
+    <rect x="112" y="0" width="16" height="12" class="printed-f"/>
+    <text x="136" y="10" class="sub t-small">printed in ASA</text>
+    <rect x="248" y="0" width="16" height="12" class="vent-f"/>
+    <text x="272" y="10" class="sub t-small">ePTFE membrane</text>
+  </g>
+</svg>
