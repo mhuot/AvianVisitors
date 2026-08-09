@@ -31,7 +31,7 @@ past ~5 m on a line-level mic pick up noise.
 | 1 | 1½" PVC DWV 90° street elbow | ~$3 | Any hardware store. The mic housing. |
 | 1 | Furry windjammer for lav capsule | ~$20 | Røde MiniFur-Lav or Bubblebee Windbubble. Matters more than the housing. |
 | 4 | GORE GAW112 acoustic vent | $10/set | [GroupGets][groupgets], sold as AudioMoth spares. |
-| 1 | Stainless mesh or nylon stocking | ~$0 | Bug screen for the mouth. |
+| 1 | Stainless mesh + ePTFE membrane | ~$10 | Mouth closure; mesh backs the membrane. |
 | 1 | Conduit strap or hose clamp | ~$2 | Soffit mount. |
 | — | Exterior latex primer + light paint | ~$0 | PVC chalks under UV; light colour cuts solar gain. |
 
@@ -53,9 +53,11 @@ and a printed drip lip outside.](img/mic-housing-section.svg)
 - **Never point the capsule up.** Down or horizontal only.
 - **Under an eave or soffit**, 6–8 ft up, set back from the drip line so icicles don't
   form on it and so roof-shed snow doesn't bury it.
-- **Screen the mouth** with stainless mesh or a nylon stocking. This is a bug and debris
-  screen only — spiders and box elder bugs will move in otherwise. The elbow geometry is
-  what rejects rain; the screen has no acoustic job to do.
+- **Close the mouth** with an ePTFE membrane outboard, backed by stainless mesh and
+  clamped by the retainer ring. One part then does two jobs — nothing gets past a
+  sub-micron pore size, and the whole bore stays dry, which protects the holder, the
+  cable and the printed parts as well as the capsule. The mesh is what stops the
+  membrane drumming under wind and rain load.
 - **Never seal the capsule in a bag or airtight box.** It traps condensation and
   muffles the sound. Breathable and water-shedding beats sealed, every time.
 - **Never cap the mouth.** See [why the tube stays open](#why-the-tube-stays-open).
@@ -100,6 +102,25 @@ Two things worth knowing from the [GAW334 datasheet][gaw334]:
 Note these vents are **tiny** — 1.6-3.0 mm inner diameter. They cover a microphone port,
 not an opening. If your lav has a domed metal grille there is nowhere for the adhesive to
 seal; see the printed vent carrier below.
+
+### Membrane at the mouth as well
+
+Closing the mouth with a membrane is not the same mistake as capping it. A rigid cap vents
+~1300 mm² of bore through a few mm² of port, and that area ratio is what builds the
+resonator described below. A membrane spans the full bore, so there is no neck at all — it
+adds distributed flow resistance, which if anything damps the hood's own tube resonance.
+
+![Enlarged section through the mouth: an ePTFE membrane across the full bore on the
+outboard face, stainless mesh immediately inboard as backing, both clamped by a printed
+retainer ring that press-fits into the bore, with the membrane turned up between retainer
+and bore wall.](img/mic-housing-mouth-detail.svg)
+
+Two honest caveats. The acoustic-grade Gore material only exists as small die-cut vents,
+so spanning 40 mm means apparel-grade laminate with **no published acoustic data** — its
+loss is higher than the quoted 2 dB and weighted toward the high frequencies that matter.
+And a membrane can ice over in a glaze event or load up with pollen, which is the failure
+mode that actually takes a station offline. Treat it as a service item, replaced each
+spring, and keep the capsule vent as the one barrier with a known specification.
 
 ### Why the tube stays open
 

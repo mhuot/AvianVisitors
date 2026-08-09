@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 720" width="1040" height="720" role="img" aria-labelledby="title desc">
   <title id="title">Outdoor mic housing, section view</title>
-  <desc id="desc">Section through a 1.5 inch PVC DWV 90 degree elbow used as a microphone hood. The mouth points down and stays open. A lavalier capsule sits recessed about 32 mm up inside, held by a printed spoked holder, with a GORE acoustic vent on a printed carrier over the capsule face and a furry windjammer around it. Bug mesh and a retainer ring sit at the mouth, with a printed drip lip outside. The cable runs up through the bend and out the horizontal leg.</desc>
+  <desc id="desc">Section through a 1.5 inch PVC DWV 90 degree elbow used as a microphone hood. The mouth points down; its aperture stays the full bore. A lavalier capsule sits recessed about 32 mm up inside, held by a printed spoked holder, with a GORE acoustic vent on a printed carrier over the capsule face and a furry windjammer around it. At the mouth an ePTFE membrane lies outboard, backed by stainless mesh and clamped by a printed retainer ring, with a printed drip lip outside. The cable runs up through the bend and out the horizontal leg.</desc>
 
   <style>
     .bgfill   { fill: #ffffff; }
@@ -110,10 +110,13 @@
   <rect x="342" y="526" width="36" height="4"  class="vent-f"/>
   <path d="M356,515 h8" class="vent-s" stroke-width="2.5" fill="none"/>
 
-  <!-- Bug mesh and its retainer ring -->
-  <rect x="288" y="575" width="14" height="14" class="printed-f"/>
-  <rect x="418" y="575" width="14" height="14" class="printed-f"/>
-  <rect x="302" y="578" width="116" height="8" fill="url(#meshpat)"/>
+  <!-- Mouth closure: membrane outboard, mesh backing, retainer clamping both.
+       Aperture stays the full bore, so there is no neck and no resonator. -->
+  <rect x="288" y="566" width="14" height="30" class="printed-f"/>
+  <rect x="418" y="566" width="14" height="30" class="printed-f"/>
+  <rect x="288" y="596" width="144" height="10" fill="url(#meshpat)"/>
+  <rect x="288" y="596" width="144" height="10" class="mesh-s" fill="none" stroke-width="1"/>
+  <rect x="288" y="606" width="144" height="7" class="vent-f"/>
 
   <!-- Cable, following the same centreline out of the cable leg -->
   <path d="M 360,462 V 330 A 150,150 0 0 1 510,180 H 1010" class="cable-s" stroke-width="11" fill="none" stroke-linecap="round"/>
@@ -138,21 +141,22 @@
 
   <g class="label t-lab">
     <text x="226" y="456" text-anchor="end">Capsule holder — printed</text>
-    <text x="226" y="587" text-anchor="end">Bug mesh + retainer</text>
+    <text x="226" y="587" text-anchor="end">Membrane + mesh + retainer</text>
     <text x="226" y="633" text-anchor="end">Drip lip — printed</text>
     <text x="190" y="311" text-anchor="end">1½&#8243; PVC DWV elbow</text>
     <text x="582" y="361">Lavalier capsule</text>
     <text x="582" y="411">Windjammer — foam + fur</text>
     <text x="582" y="461">GORE acoustic vent</text>
     <text x="640" y="55">Cable exit — silicone seal, drip loop outside</text>
-    <text x="562" y="673">Mouth faces down, and is never capped</text>
+    <text x="562" y="673">Mouth faces down, aperture full-bore</text>
   </g>
 
   <g class="sub t-small">
     <text x="582" y="379">6 × 15 mm, sealed electret</text>
     <text x="582" y="479">on printed carrier, 2.4 mm port</text>
     <text x="226" y="472" text-anchor="end">≥80% open — never a solid disc</text>
-    <text x="562" y="691">a sealed cavity resonates near 240 Hz</text>
+    <text x="226" y="604" text-anchor="end">ePTFE outboard, mesh backs it</text>
+    <text x="562" y="691">a rigid cap would resonate near 240 Hz</text>
   </g>
 
   <!-- Legend -->
