@@ -369,6 +369,8 @@ a "reducing tee" in DWV is why it doesn't turn up; the word that matters is **sa
 |-----|------|--------|-------|
 | 1 | 3×3×1½" PVC DWV reducing **sanitary** tee | ~$12 | [Charlotte PVC 00401][santee] — also at [Lowe's][santeelowes]. |
 | 1 | 1½" PVC DWV **street** 90° elbow | ~$3 | Street, not regular: its spigot end glues straight into the tee's branch hub, with no pipe nipple between. |
+| 1 | 1½" PVC DWV pipe, ~50 mm | ~$1 | Offcut. Drops the mouth clear of the drain cap. |
+| 1 | 1½" PVC DWV coupling | ~$2 | At the mouth. This is what gives the printed retainer its 48.80 socket to grip. |
 | 1 | 3" PVC DWV pipe, ~600 mm | ~$10 | Cut into the run above and below the tee. |
 | 1 | Oatey mushroom vent cap, 3" | ~$10 | Top. Sheds rain, passes air. Check it ships with a screen. |
 | 1 | 3" PVC cap, drilled + screened | ~$5 | Bottom. **Never leave it solid** — see below. |
@@ -379,9 +381,20 @@ If the reducing sanitary tee is backordered — it sometimes is — buy a plain 
 sanitary tee** and a **3" × 1½" reducer bushing** ([Charlotte PVC 00107][bushing]) instead.
 Both are stocked everywhere, and the assembled dimensions come out the same.
 
-In the renders the tee and elbow are drawn as one continuous body, because the model sweeps
-the branch in a single pass. The **step partway along the branch is the joint**: everything
-outboard of it is the street elbow, everything inboard is the tee.
+The branch is **four stock parts**, working outward from the run: the tee's branch hub, a
+street 90, a short length of 1½" pipe, and a coupling at the mouth. The renders draw them
+as one continuous body because the model sweeps the branch in a single pass, so read the
+steps in the outline as the joints:
+
+```
+tee branch hub | street 90 elbow | ~50 mm pipe | coupling | mouth
+```
+
+The pipe is not filler. It drops the mouth to the bottom of the assembly, clear of the
+drain cap at the foot of the run; without it the mic sits level with the bottom of the
+enclosure. And the coupling is not decorative either — it is the socket the printed
+retainer plugs into. Ending on bare pipe would leave the retainer gripping a 40.90 bore it
+is not sized for, and it would fall out.
 
 [santee]: https://www.homedepot.com/p/Charlotte-Pipe-3-in-x-3-in-x-1-1-2-in-DWV-PVC-Sanitary-Tee-Reducing-PVC004011200HD/203396203
 [santeelowes]: https://www.lowes.com/pd/Charlotte-Pipe-3-in-x-3-in-x-1-1-2-in-dia-PVC-Schedule-40-Hub-Sanitary-Tee-Fitting/3132825

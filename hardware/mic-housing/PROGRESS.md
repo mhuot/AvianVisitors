@@ -55,7 +55,7 @@ fitting. Parts 2-5 are unaffected; they live in the branch bore regardless.
 
 | Part | File | Evidence |
 |---|---|---|
-| PVC 3x3x1-1/2 reducing tee | `06_tee.py` | 394902 mm3 (373558 before the branch hub), one body, bbox x[-28.08, 166.6] y[0, 300] z[+-44.45]. The x and y minima are the checks that matter: -28.08 is exactly the 56.16 hub radius, and y=0 means the mouth survived the socket cut. |
+| PVC 3x3x1-1/2 reducing tee | `06_tee.py` | 412136 mm3, one body, bbox x[-28.08, 166.6] y[0, 300] z[+-44.45]. The x and y minima are the checks that matter: -28.08 is exactly the 56.16 hub radius, and y=0 means the mouth survived the socket cut. |
 | Pi sled | `07_pi_sled.py` | One welded body, 31114 mm3, bbox x[82.47, 161.83] y[175, 267] z[+-39.68]. Two ribs at 79.36 press-fit the 79.76 bore; six 14 mm lightening cutouts; four 9 mm bosses bored 4.0 x 4.0 for CNC Kitchen M3 x 3 short heat-set inserts. Volume moved 29901 -> 31114 = +365 for the larger bosses net of their bores, +848 from shrinking the lightening holes 16 -> 14 to clear them. |
 | Pi board | `07_pi_sled.py` | Reference. 2730 mm3 = 65 x 30 x 1.4 exactly, standing off the spine at z 5.5..6.9. |
 | Mushroom vent cap | `08_caps.py` | Purchased, modelled. 121328 mm3, one body, bbox y[275, 339] x[66.15, 178.15] = the 112 crown centred on the run axis. Skirt clamps the pipe, crown stands off on three posts so air exits radially. |
@@ -171,6 +171,11 @@ Fusion 2704.1.36.
   Yellow|Blue|Red)`, `Plastic - Matte (same set + Gray)`, `Plastic - Translucent
   Matte (White|Gray|Green|Red|Blue)`, `Aluminum - Anodized Glossy (Grey|Blue|
   Red)`, `Paint - Enamel Glossy (...)`. There is still no "PVC".
+* **The branch is four stock parts**, not one: tee branch hub, street 90,
+  ~50 mm of 1-1/2" pipe, and a coupling at the mouth. The model sweeps it as one
+  body, so the hub swells are the only thing marking the joints - and the mouth
+  collar has to be coupling-length (55) rather than socket_depth + shoulder
+  (28.4), or it reads as part of the elbow and the pipe section vanishes.
 * **The branch is two fittings.** No maker sells a tee whose branch curves 90
   degrees down; it is a reducing SANITARY tee plus a 1-1/2" street 90. The model
   sweeps the branch in one pass for simplicity, so `_branch_hub` swells the

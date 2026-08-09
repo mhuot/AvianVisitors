@@ -533,6 +533,11 @@ TEE = {
     # Where the tee's branch hub ends and the street elbow begins. Outboard of
     # this face is a separate fitting you buy separately.
     "hub_joint_x": 67.15,
+    # The mouth collar is a 1-1/2" COUPLING, not part of the elbow: there is
+    # ~47 mm of pipe between it and the bend. Real DWV couplings are about
+    # 55 mm long - two sockets back to back with a stop between them - so
+    # modelling it at socket_depth + shoulder made it read as an elbow hub.
+    "mouth_coupling_len": 55.0,
 }
 
 
@@ -625,16 +630,20 @@ def _branch_hub(comp):
 
 
 def _mouth_socket(comp, body):
-    """Counterbore the branch mouth to `socket_id` for `socket_depth`.
+    """Put a 1-1/2" coupling on the mouth end of the branch.
 
-    A real reducing tee's branch is a hub - you glue pipe into it - so this is
-    what the fitting actually looks like. It also matters structurally here:
-    `build_retainer_and_lip` is sized to the 48.80 socket, not the 40.90 bore,
-    so without this the retainer has nothing to grip and falls straight out.
+    Not part of the elbow. The branch from the tee outward is three stock parts:
+    a street 90, about 47 mm of 1-1/2" pipe, and this coupling. The pipe length
+    is what drops the mouth clear of the drain cap; without it the mic sits level
+    with the bottom of the enclosure.
+
+    Structurally it is what `build_retainer_and_lip` grips: the retainer is sized
+    to the 48.80 socket, not the 40.90 pipe bore, so with no coupling here it has
+    nothing to hold and falls straight out.
     """
     p = PARAMS
     hub_od = p["socket_id"] + 2 * p["wall"]
-    hub_len = p["socket_depth"] + p["hub_shoulder"]
+    hub_len = TEE["mouth_coupling_len"]
     bore = p["pipe_od"] - 2 * p["wall"]
     base = mouth_plane(comp, 0.0)
 
