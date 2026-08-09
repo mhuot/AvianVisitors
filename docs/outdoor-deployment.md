@@ -45,8 +45,8 @@ is a **hood**: open at the bottom, sheds rain, passes sound.
 
 ![Section through the mic housing: a 1½" PVC DWV 90° elbow with the mouth facing down,
 a lavalier capsule recessed about 32 mm up inside behind a GORE acoustic vent on a
-printed carrier, a printed spoked holder above it, bug mesh and retainer at the mouth,
-and a printed drip lip outside.](img/mic-housing-section.svg)
+printed carrier, a printed spoked holder above it, an ePTFE membrane on a mesh backing
+clamped by a retainer at the mouth, and a printed drip lip outside.](img/mic-housing-section.svg)
 
 - **A 1½" PVC 90° elbow** is the standard cheap answer. Capsule recessed inside the
   horizontal leg, opening facing down.
@@ -60,15 +60,17 @@ and a printed drip lip outside.](img/mic-housing-section.svg)
   membrane drumming under wind and rain load.
 - **Never seal the capsule in a bag or airtight box.** It traps condensation and
   muffles the sound. Breathable and water-shedding beats sealed, every time.
-- **Never cap the mouth.** See [why the tube stays open](#why-the-tube-stays-open).
+- **Never cap the mouth with a rigid disc**, whatever ports you drill in it. A membrane
+  is fine; a cap is not. See [why a rigid cap fails](#why-a-rigid-cap-fails).
 - **Drip loop** in the cable below the entry point. Slope the wall pass-through downward
   toward the outside and seal it at the outer face.
 
 ### Waterproofing the capsule itself
 
 Protect the capsule with an acoustic vent — an ePTFE membrane that passes sound while
-blocking liquid water. It goes **directly on the capsule port**, never across the tube
-mouth.
+blocking liquid water. This one goes **directly on the capsule port**. It is a different
+part from the mouth membrane below, and the two are complementary: this is the barrier
+with a published specification, sitting closest to the thing that matters.
 
 Cheapest retail source: [GroupGets sells four GORE GAW112 vents for $10][groupgets],
 listed as spares for the AudioMoth USB Microphone Case. AudioMoth is a bioacoustic
@@ -122,7 +124,7 @@ And a membrane can ice over in a glaze event or load up with pollen, which is th
 mode that actually takes a station offline. Treat it as a service item, replaced each
 spring, and keep the capsule vent as the one barrier with a known specification.
 
-### Why the tube stays open
+### Why a rigid cap fails
 
 It is tempting to cap the elbow with a printed disc carrying a few acoustic vents. Don't.
 That turns the tube into a Helmholtz resonator — an ~80 cm³ cavity venting through
@@ -138,8 +140,11 @@ Resonance lands near 240 Hz and the response rolls off ~12 dB/octave above it. S
 frequency scales with the square root of open area, so clearing the song band would take
 about a thousand times more area than these vents can give.
 
-The membrane belongs on the capsule, where the volume behind it is a fraction of a cubic
-millimetre and resonance stays ultrasonic. That is how phones do it.
+The small die-cut vents belong on the capsule, where the volume behind them is a fraction
+of a cubic millimetre and resonance stays ultrasonic. That is how phones do it. Note the
+distinction from the mouth membrane: what makes a resonator is the *area ratio* between
+cavity and neck, so a barrier spanning the whole aperture is harmless where the same
+material behind a 2.4 mm port in a rigid plate would not be.
 
 ### Printed parts
 
@@ -150,7 +155,8 @@ Printing is worth it, for holders rather than covers:
   flat sealing surface it otherwise lacks, with negligible trapped volume.
 - **Capsule holder** that press-fits the 1½" ID and centres the mic. Build it as spokes
   or webbing, ≥80% open — never a solid disc.
-- **Retainer ring** at the mouth to hold the bug mesh.
+- **Retainer ring** that press-fits the bore and clamps the membrane and its mesh
+  backing, trapping the membrane's turned-up edge against the bore wall.
 - **Drip lip** extending the mouth 10-15 mm against wind-driven rain.
 
 Print in **ASA**. PLA's glass transition is ~60 °C and a dark part in July sun will pass
