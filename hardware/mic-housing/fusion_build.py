@@ -529,6 +529,10 @@ TEE = {
     "run_wall": 4.57,
     "run_bot": 70.0,     # open lower end; the inlet cap slips on here
     "run_top": 300.0,    # open upper end; the outlet cap slips on here
+    "run_axis_x": 122.15,
+    # Where the tee's branch hub ends and the street elbow begins. Outboard of
+    # this face is a separate fitting you buy separately.
+    "hub_joint_x": 67.15,
 }
 
 
@@ -571,6 +575,7 @@ def build_tee_body(root):
     _combine(comp, bore_branch, bore_run, JOIN)
 
     _combine(comp, outer_branch, bore_branch, CUT)
+    _branch_hub(comp)
     _mouth_socket(comp, outer_branch)
     outer_branch.name = "tee body"
 
@@ -578,6 +583,45 @@ def build_tee_body(root):
         raise RuntimeError("tee left %d bodies, expected 1" % comp.bRepBodies.count)
     report(comp)
     return comp
+
+
+def _branch_hub(comp):
+    """Swell the outboard part of the branch into a hub.
+
+    THIS IS TWO FITTINGS, not one. No maker sells a tee whose branch curves 90
+    degrees downward. What you buy is a reducing SANITARY tee plus a 1-1/2"
+    street 90 whose spigot glues into the tee's branch hub. The model sweeps the
+    branch as one continuous solid for simplicity, so without this swell the
+    render invites you to shop for a part that does not exist.
+
+    The hub's end face at `x0` is the joint: everything outboard of it is the
+    street elbow, everything inboard is the tee.
+
+    Revolved rather than extruded because the branch axis runs along X, and every
+    verified plane convention here is for XZ sketches, whose extrudes travel +Y.
+    A revolve about a sketch line needs only an XY sketch.
+    """
+    p, t = PARAMS, TEE
+    branch_y = p["leg_mouth"] + p["bend_radius"]
+    x0, x1 = t["hub_joint_x"], t["run_axis_x"] - 17.0
+    y_lo = branch_y + p["pipe_od"] / 2.0
+    y_hi = branch_y + (p["socket_id"] + 2 * p["wall"]) / 2.0
+
+    sk = comp.sketches.add(comp.xYConstructionPlane)
+    lines = sk.sketchCurves.sketchLines
+    axis = lines.addByTwoPoints(pt(x0 - 12, branch_y, 0), pt(x1 + 12, branch_y, 0))
+    corners = [pt(x0, y_lo, 0), pt(x1, y_lo, 0), pt(x1, y_hi, 0), pt(x0, y_hi, 0)]
+    for i in range(4):
+        lines.addByTwoPoints(corners[i], corners[(i + 1) % 4])
+
+    profiles = [pr for pr in sk.profiles if pr.profileLoops.count == 1]
+    if len(profiles) != 1:
+        raise RuntimeError("branch hub sketch made %d profiles, expected 1"
+                           % len(profiles))
+    revolves = comp.features.revolveFeatures
+    ri = revolves.createInput(profiles[0], axis, JOIN)
+    ri.setAngleExtent(False, adsk.core.ValueInput.createByString("360 deg"))
+    revolves.add(ri)
 
 
 def _mouth_socket(comp, body):

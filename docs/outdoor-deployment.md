@@ -361,12 +361,31 @@ capsule, and it is rigidly coupled to the same plastic the capsule is mounted in
 
 Both caps are purchased, not printed:
 
+**This is two fittings, not one.** Nobody sells a tee whose branch curves down — what you
+want is a reducing *sanitary* tee plus a street elbow glued into its branch. Searching for
+a "reducing tee" in DWV is why it doesn't turn up; the word that matters is **sanitary**.
+
 | Qty | Part | Approx | Notes |
 |-----|------|--------|-------|
+| 1 | 3×3×1½" PVC DWV reducing **sanitary** tee | ~$12 | [Charlotte PVC 00401][santee] — also at [Lowe's][santeelowes]. |
+| 1 | 1½" PVC DWV **street** 90° elbow | ~$3 | Street, not regular: its spigot end glues straight into the tee's branch hub, with no pipe nipple between. |
+| 1 | 3" PVC DWV pipe, ~600 mm | ~$10 | Cut into the run above and below the tee. |
 | 1 | Oatey mushroom vent cap, 3" | ~$10 | Top. Sheds rain, passes air. Check it ships with a screen. |
 | 1 | 3" PVC cap, drilled + screened | ~$5 | Bottom. **Never leave it solid** — see below. |
 | 4 | CNC Kitchen M3 x 3 short heat-set inserts | ~$1 | Pi mounting in the printed sled. |
 | — | Stainless hose clamps | ~$3 | Hold the screens at both cap ends. |
+
+If the reducing sanitary tee is backordered — it sometimes is — buy a plain **3×3×3 DWV
+sanitary tee** and a **3" × 1½" reducer bushing** ([Charlotte PVC 00107][bushing]) instead.
+Both are stocked everywhere, and the assembled dimensions come out the same.
+
+In the renders the tee and elbow are drawn as one continuous body, because the model sweeps
+the branch in a single pass. The **step partway along the branch is the joint**: everything
+outboard of it is the street elbow, everything inboard is the tee.
+
+[santee]: https://www.homedepot.com/p/Charlotte-Pipe-3-in-x-3-in-x-1-1-2-in-DWV-PVC-Sanitary-Tee-Reducing-PVC004011200HD/203396203
+[santeelowes]: https://www.lowes.com/pd/Charlotte-Pipe-3-in-x-3-in-x-1-1-2-in-dia-PVC-Schedule-40-Hub-Sanitary-Tee-Fitting/3132825
+[bushing]: https://www.lowes.com/pd/Charlotte-Pipe-3-in-x-1-1-2-in-dia-PVC-Schedule-40-Spigot-Flush-Bushing-Fitting/3357818
 
 Don't substitute an NDS drain grate at the bottom. Those fit **sewer-and-drain** pipe at
 about 4.215" OD; Schedule 40 / DWV is 4.500", so it will not fit.
