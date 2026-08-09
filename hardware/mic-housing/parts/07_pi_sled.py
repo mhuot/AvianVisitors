@@ -14,11 +14,23 @@ SLED = {
     "sled_clear": 0.4,      # press fit against the run bore
     "spine_thick": 3.0,
     "spine_half": 35.0,     # overlaps the ribs' inner radius so the JOIN welds
-    "lighten_dia": 16.0,
+    "lighten_dia": 14.0,
     "lighten_x": 25.0,      # outboard of the 30 mm board and its standoffs
     "lighten_pitch": 30.0,
+    # CNC Kitchen "Heat Set Insert M3 x 3, short version". Off their datasheet:
+    # 4.6 body diameter, 3.0 long, 4.0 recommended hole, 4.0 minimum blind-hole
+    # depth, 1.6 minimum wall.
+    "insert_len": 3.0,
+    "insert_od": 4.6,
+    "insert_hole_dia": 4.0,
+    "insert_min_depth": 4.0,  # datasheet minimum for a blind hole
+    "insert_min_wall": 1.6,
+    "insert_floor": 2.0,      # plastic left under the bore
+    # Boss diameter is checked against the wall rule at build time rather than
+    # trusted. 9.0 clears both readings of it: 4.0 + 2*1.6 = 7.2 from the hole,
+    # 4.6 + 2*1.6 = 7.8 from the insert body.
     "standoff": 4.0,
-    "standoff_dia": 6.0,
+    "standoff_dia": 9.0,
 }
 
 
@@ -96,7 +108,9 @@ def build_pi_sled(root):
     ex.add(ei)
 
     # Standoffs, on the +Z face only. The board hangs off one side; the other
-    # side stays clear so air is not funnelled through a 4 mm slot.
+    # side stays clear so air is not funnelled through a narrow slot. They are
+    # tall enough that a blind insert hole still leaves a floor: standoff +
+    # spine = 7 mm of material against a 4 mm bore.
     hsk = comp.sketches.add(comp.xYConstructionPlane)
     for sx in (-1, 1):
         for sy in (-1, 1):
@@ -109,6 +123,35 @@ def build_pi_sled(root):
         posts.add(prof)
     ei = ex.createInput(posts, JOIN)
     ei.setDistanceExtent(False, vi(s["spine_thick"] / 2.0 + s["standoff"]))
+    ex.add(ei)
+
+    # Blind bores for the heat-set inserts, cut down from the standoff faces.
+    wall = (s["standoff_dia"] - s["insert_od"]) / 2.0
+    if wall < s["insert_min_wall"]:
+        raise RuntimeError(
+            "boss wall %.2f mm is under the %.2f mm minimum; widen standoff_dia"
+            % (wall, s["insert_min_wall"]))
+    hole_depth = max(s["insert_len"] + 1.0, s["insert_min_depth"])
+    top_z = s["spine_thick"] / 2.0 + s["standoff"]
+    depth_available = s["standoff"] + s["spine_thick"]
+    if hole_depth + s["insert_floor"] > depth_available:
+        raise RuntimeError(
+            "insert bore %.1f + floor %.1f exceeds %.1f mm of material; raise "
+            "standoff" % (hole_depth, s["insert_floor"], depth_available))
+
+    top = offset_plane(comp, comp.xYConstructionPlane, top_z)
+    bsk = comp.sketches.add(top)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            bsk.sketchCurves.sketchCircles.addByCenterRadius(
+                pt(x_run + sx * s["pi_hole_dy"] / 2.0,
+                   y_mid + sy * s["pi_hole_dx"] / 2.0, 0),
+                mm(s["insert_hole_dia"] / 2.0))
+    bores = adsk.core.ObjectCollection.create()
+    for prof in bsk.profiles:
+        bores.add(prof)
+    ei = ex.createInput(bores, CUT)
+    ei.setDistanceExtent(False, vi(-hole_depth))
     ex.add(ei)
 
     if comp.bRepBodies.count != 1:

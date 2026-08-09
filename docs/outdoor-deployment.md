@@ -31,7 +31,9 @@ past ~5 m on a line-level mic pick up noise.
 | 1 | 1½" PVC DWV 90° street elbow | ~$3 | Any hardware store. The mic housing. |
 | 1 | Furry windjammer for lav capsule | ~$20 | Røde MiniFur-Lav or Bubblebee Windbubble. Matters more than the housing. |
 | 4 | GORE GAW112 acoustic vent | $10/set | [GroupGets][groupgets], sold as AudioMoth spares. |
-| 1 | Stainless mesh + ePTFE membrane | ~$10 | Mouth closure; mesh backs the membrane. |
+| 1 | 12" x 12" sheet, 12-mesh T-304 stainless | ~$12 | Covers all three screened points. **Not** galvanised hardware cloth. |
+| 1 | ePTFE membrane | ~$10 | Mouth closure, outboard of the mesh. |
+| 4 | CNC Kitchen M3 x 3 short heat-set inserts | ~$1 | Pi mounting in the sled. |
 | 1 | Conduit strap or hose clamp | ~$2 | Soffit mount. |
 | — | Exterior latex primer + light paint | ~$0 | PVC chalks under UV; light colour cuts solar gain. |
 
@@ -131,6 +133,52 @@ And a membrane can ice over in a glaze event or load up with pollen, which is th
 mode that actually takes a station offline. Treat it as a service item, replaced each
 spring, and keep the capsule vent as the one barrier with a known specification.
 
+### Sourcing the stainless mesh
+
+A terminology trap first: **"12 mesh" means 12 openings per inch**, while "12×12" in a
+listing may instead mean a 12-inch square sheet. Listings often say both. You want a
+12-inch sheet of roughly 12-mesh material.
+
+One **12" × 12" sheet of 12-mesh T-304**, ~0.023" wire, ~1.5 mm openings, covers every
+place mesh appears in this build and leaves spares:
+
+| Where | Piece | Why this mesh |
+|-------|-------|---------------|
+| Mic mouth, behind the membrane | ⌀41 mm disc | Fine enough to stop the membrane bulging, ~60% open so it costs almost nothing acoustically |
+| Under the mushroom cap | ⌀89 mm disc | Stops wasps and mice at the vent |
+| Inside the drain cap | ⌀89 mm disc | Same, and coarse enough to keep draining |
+
+Sources, in order of fuss: [Amazon][meshamzn] or [eBay][meshebay] for a ~$10-15 sheet;
+[McMaster-Carr][meshmcm] if you want the alloy documented; [TWP Inc][meshtwp], who will
+laser-cut it to size; [OnlineMetals][meshom] for custom cuts.
+
+**Do not use hardware cloth from a big-box store.** It is galvanised, not stainless. It is
+the obvious thing to grab, and it will rust and streak down your white PVC within a couple
+of winters - and rust-jacking eventually tears the membrane it is supposed to support. Most
+big-box "insect screen" is aluminium or fibreglass. If the label does not say 304 or 316,
+it is neither.
+
+304 is fine under an eave. Choose 316 only near the coast or a heavily salted road.
+
+Three practical notes:
+
+- Cut with tin snips and **deburr**. The cut ends are sharp enough to perforate the ePTFE
+  membrane they sit against.
+- **Never clamp stainless against aluminium** in a wet joint - that is a galvanic cell and
+  the aluminium loses. Stainless hose clamps are correct.
+- At the mouth the mesh goes **inboard** of the membrane: membrane outside shedding water,
+  mesh behind taking the load.
+
+The mesh is **not in the Fusion model** - at this scale it would render as a solid disc and
+mislead more than it informs, so it appears in the line drawings only. If you are working
+from the renders when you assemble, that is the piece that is missing.
+
+[meshamzn]: https://www.amazon.com/Quality-Stainless-Steel-Mesh-Screen/dp/B07RC5YQZ8
+[meshebay]: https://www.ebay.com/itm/293071536728
+[meshmcm]: https://www.mcmaster.com/products/304-stainless-steel-wire-cloth/
+[meshtwp]: https://www.twpinc.com/12-mesh-t304-stainless-023-wire-dia
+[meshom]: https://www.onlinemetals.com/en/buy/stainless-steel/12x12-mesh-0-023-wire-diameter-stainless-steel-woven-wire-mesh-304/pid/mp-00002031
+
 ### Why a rigid cap fails
 
 It is tempting to cap the elbow with a printed disc carrying a few acoustic vents. Don't.
@@ -165,6 +213,27 @@ Printing is worth it, for holders rather than covers:
 - **Retainer ring** that press-fits the bore and clamps the membrane and its mesh
   backing, trapping the membrane's turned-up edge against the bore wall.
 - **Drip lip** extending the mouth 10-15 mm against wind-driven rain.
+
+**Heat-set inserts for the Pi.** The sled's standoffs are bored for
+[CNC Kitchen M3 x 3 short inserts][inserts] rather than tapped or self-tapped, so the
+board can come off as many times as servicing needs without chewing out the plastic.
+Their datasheet gives 4.6 mm body, 3.0 mm long, 4.0 mm recommended hole, 4.0 mm minimum
+blind depth, 1.6 mm minimum wall. From that:
+
+- **4.0 mm hole.** Model it at 4.0 even though it will measure nearer 3.8 off the bed -
+  the nozzle over-extrudes on tight curves, and that shortfall is exactly what the
+  insert grips.
+- **9 mm boss**, not the 6 mm a bare standoff would be. The 1.6 mm wall minimum puts the
+  floor at 7.2 mm measured from the hole, or 7.8 mm measured from the 4.6 mm body; 6 mm
+  leaves about 0.7 mm and splits as the insert goes in.
+- **4 mm blind bore**, the datasheet minimum, into 7 mm of standoff-plus-spine - a 3 mm
+  floor underneath. Nothing breaks through the back of the plate.
+
+The build checks the wall rule and the floor rather than trusting them, so narrowing the
+boss or shortening the standoff fails loudly instead of producing a part that splits on
+assembly. Swapping insert size is one parameter (`insert_len`); everything else follows.
+
+[inserts]: https://cnckitchen.store/products/heat-set-insert-m3-x-3-short-version-100-pieces
 
 Print in **ASA**. PLA's glass transition is ~60 °C and a dark part in July sun will pass
 it, quite apart from having no UV life; PETG is an acceptable second with some yellowing.
