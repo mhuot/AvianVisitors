@@ -1,6 +1,6 @@
 # Mic housing Fusion build - progress
 
-**State: reducing-tee assembly complete.** Thirteen bodies build, six documentation
+**State: reducing-tee assembly complete.** Thirteen bodies build, seven documentation
 PNGs are written, and every part below was checked against a render before being
 committed to disk.
 
@@ -184,6 +184,8 @@ Fusion 2704.1.36.
   axis.
 * `tee-mic-detail.png` - capsule, holder and vent carrier, tee hidden.
 * `tee-printed-sled.png` - the sled and board alone.
+* `tee-sled-inserts.png` - the sled from its mounting face, board hidden, so the
+  four bored insert bosses are visible. Every other sled view covers them.
 * `tee-printed-mic.png` - the mic's printed parts alone.
 
 Printed parts render yellow rather than the green the SVG drawings use for

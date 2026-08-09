@@ -235,6 +235,12 @@ assembly. Swapping insert size is one parameter (`insert_len`); everything else 
 
 [inserts]: https://cnckitchen.store/products/heat-set-insert-m3-x-3-short-version-100-pieces
 
+![Fusion render of the printed Pi sled from its mounting face with the board removed:
+four raised bosses each bored 4 mm for a heat-set insert, set among the six lightening
+holes in the spine.](img/tee-sled-inserts.png)
+
+That is the face the inserts go into — every other view has the board covering them.
+
 Print in **ASA**. PLA's glass transition is ~60 °C and a dark part in July sun will pass
 it, quite apart from having no UV life; PETG is an acceptable second with some yellowing.
 Run 4+ perimeters — layer lines are capillary paths for water.

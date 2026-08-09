@@ -143,7 +143,7 @@ def shot(app, filename, eye, target, up=(0.0, 1.0, 0.0), extents=None):
 
 
 def render_all(app, design):
-    """Six images of the reducing-tee station.
+    """Seven images of the reducing-tee station.
 
     The tee is 400 mm tall against a 6 mm capsule, so no single framing carries
     both. Two overall views establish the assembly, two show the interiors, and
@@ -188,6 +188,16 @@ def render_all(app, design):
                          "vent carrier", "retainer", "capsule holder"])
     written.append(shot(app, "tee-printed-sled.png",
                         eye=(x_run + 190, 300, 205), target=(x_run, 221, 0)))
+
+    # The sled with the board taken off, from the mounting face. Every other
+    # sled view has the board covering the four insert bosses, which are the
+    # features you actually need to see before assembly.
+    set_visible(design, ["PVC", "lav capsule", "windjammer", "cable",
+                         "vent carrier", "retainer", "capsule holder",
+                         "Pi board"])
+    written.append(shot(app, "tee-sled-inserts.png",
+                        eye=(x_run + 70, 278, 195), target=(x_run, 221, 0),
+                        extents=105.0))
 
     set_visible(design, ["PVC", "lav capsule", "windjammer", "cable", "Pi "])
     written.append(shot(app, "tee-printed-mic.png",
