@@ -242,11 +242,49 @@ condensate drainage. The 1½ inch branch turns down through a 90 degree elbow ca
 mic exactly as before, so the Pi never shares the mic
 bore.](img/mic-housing-tee-variant.svg)
 
-A **4×4×1½" reducing tee** gives one assembly with two acoustic domains. The Pi gets a
-chimney instead of a dead-end pocket, and the mic bore stays clean. Sharing a single tube
-between the two is the tempting version and the wrong one: the Pi becomes a large
-reflector directly above the capsule, and the two thermal layouts fight — the mic wants
-one opening at the bottom, the Pi wants cool air low and warm air out high.
+A **4×4×1½" reducing tee** gives one assembly with two acoustic domains. The Pi gets its
+own body, and the mic bore stays clean. Sharing a single tube between the two is the
+tempting version and the wrong one: the Pi becomes a large reflector directly above the
+capsule, and it is rigidly coupled to the same plastic the capsule is mounted in.
+
+Both caps are purchased, not printed:
+
+| Qty | Part | Approx | Notes |
+|-----|------|--------|-------|
+| 1 | Oatey mushroom vent cap, 4" | ~$10 | Top. Sheds rain, passes air. Check it ships with a screen. |
+| 1 | 4" PVC cap, drilled + screened | ~$5 | Bottom. **Never leave it solid** — see below. |
+| 1 | Stainless mesh + hose clamp | ~$3 | Screening for both ends. |
+
+Don't substitute an NDS drain grate at the bottom. Those fit **sewer-and-drain** pipe at
+about 4.215" OD; Schedule 40 / DWV is 4.500", so it will not fit.
+
+### The bottom cap must not be solid
+
+Drainage, not airflow, is the reason. The tube is vented at the top, so humid air gets in;
+at night the PVC drops below dew point and that moisture condenses and runs down. A solid
+cap pools it at the lowest point, directly under the Pi, with nowhere to go.
+
+Airflow matters less than it first appears. The tube's lateral area is about 0.13 m², and
+combined natural convection plus radiation is roughly 9 W/m²K, so 5 W of Pi dissipation
+gives only `5 / (0.13 × 9) ≈ 4 K` of rise — even with no ventilation at all. Mid-summer sun
+on **white** PVC adds perhaps another 4 W, for ~8 K total. Painting it dark raises
+absorptivity from ~0.3 to ~0.9 and makes solar the dominant term. Leave it white; that one
+choice matters more than any amount of venting. (Order-of-magnitude estimates, but not
+close enough to the limit for the error bars to matter.)
+
+### No fan
+
+It is the worst thing you could add to an acoustic station. A small fan puts broadband
+noise across 200 Hz – 8 kHz — the whole song band — plus tonal blade-pass components,
+which are exactly the artifact that generates false positives in a CNN reading
+spectrograms. Worse, bolted to the same assembly it is *rigidly coupled* to the mic
+housing, so the two-domain split does nothing to protect you: that split stops the Pi
+reflecting sound, not vibrating the capsule. And it runs continuously, so it contaminates
+every recording.
+
+You don't need one. If a build ever does run hot, the levers in order are: shade it or
+keep it white; use a **Pi Zero 2 W (~1.5 W) rather than a Pi 4 (~5 W)**, which cuts the
+load by two-thirds; then undervolt or cap the clock.
 
 Whichever body you choose:
 
