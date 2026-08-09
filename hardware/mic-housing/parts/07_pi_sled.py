@@ -7,16 +7,16 @@ SLED = {
     "pi_hole_dx": 58.0,     # mounting hole pitch, long axis
     "pi_hole_dy": 23.0,     # mounting hole pitch, short axis
     # Printed sled
-    "sled_bot": 200.0,      # y at the lower rib
-    "sled_len": 100.0,
+    "sled_bot": 175.0,      # y at the lower rib
+    "sled_len": 92.0,
     "rib_thick": 5.0,
-    "rib_rim": 8.0,
+    "rib_rim": 6.0,
     "sled_clear": 0.4,      # press fit against the run bore
     "spine_thick": 3.0,
-    "spine_half": 46.0,     # overlaps the ribs' inner radius so the JOIN welds
-    "lighten_dia": 26.0,
-    "lighten_x": 30.5,      # outboard of the 30 mm board and its standoffs
-    "lighten_pitch": 34.0,
+    "spine_half": 35.0,     # overlaps the ribs' inner radius so the JOIN welds
+    "lighten_dia": 16.0,
+    "lighten_x": 25.0,      # outboard of the 30 mm board and its standoffs
+    "lighten_pitch": 30.0,
     "standoff": 4.0,
     "standoff_dia": 6.0,
 }
@@ -79,7 +79,7 @@ def build_pi_sled(root):
     y_mid = (y_lo + y_hi) / 2.0
 
     # Lighten the wings. The spine is edge-on to the airflow so it blocks almost
-    # nothing (92 x 3 mm of footprint against an 8601 mm2 bore), but solid it is
+    # nothing (70 x 3 mm of footprint against a 4996 mm2 bore), but solid it is
     # over half the sled's filament. The cutouts sit outboard of the board and
     # its standoffs, and let the two halves of the tube exchange air.
     lsk = comp.sketches.add(comp.xYConstructionPlane)

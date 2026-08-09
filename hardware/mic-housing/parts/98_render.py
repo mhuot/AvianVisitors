@@ -162,19 +162,19 @@ def render_all(app, design):
     set_visible(design, ["windjammer"])
 
     written.append(shot(app, "tee-assembly.png",
-                        eye=(700, 430, 620), target=(77, 200, 0)))
+                        eye=(560, 330, 500), target=(66, 150, 0)))
 
     # Same camera, PVC dropped to a quarter. Everything that matters is inside
     # the pipe; opaque, the image is just two tubes.
     set_opacity(design, "PVC", 0.25)
     written.append(shot(app, "tee-cutaway.png",
-                        eye=(700, 430, 620), target=(77, 200, 0)))
+                        eye=(560, 330, 500), target=(66, 150, 0)))
 
     # The Pi bay. Three-quarter rather than square-on: dead ahead renders the
     # board and spine as flat rectangles with no depth cue at all.
     written.append(shot(app, "tee-pi-bay.png",
-                        eye=(x_run + 270, 345, 265), target=(x_run, 250, 0),
-                        extents=120.0))
+                        eye=(x_run + 215, 300, 210), target=(x_run, 221, 0),
+                        extents=100.0))
     set_opacity(design, "PVC", 1.0)
 
     # Mic internals. Hiding the tee and the retainer clears the sight line; the
@@ -187,7 +187,7 @@ def render_all(app, design):
     set_visible(design, ["PVC", "lav capsule", "windjammer", "cable",
                          "vent carrier", "retainer", "capsule holder"])
     written.append(shot(app, "tee-printed-sled.png",
-                        eye=(x_run + 240, 350, 260), target=(x_run, 250, 0)))
+                        eye=(x_run + 190, 300, 205), target=(x_run, 221, 0)))
 
     set_visible(design, ["PVC", "lav capsule", "windjammer", "cable", "Pi "])
     written.append(shot(app, "tee-printed-mic.png",

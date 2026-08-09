@@ -236,13 +236,13 @@ The USB lavalier's cable is only about 6 ft, so if there is no indoor spot withi
 distance — a pole in the yard, a detached garage, a far corner — the Pi has to live at
 the mic. In that case put it in its **own** body, not in the mic's.
 
-![Section through a 4x4x1½ inch PVC reducing tee. The vertical 4 inch run holds a Pi on
+![Section through a 3x3x1½ inch PVC reducing tee. The vertical 3 inch run holds a Pi on
 a printed sled, vented at the top for warm air out and at the bottom for cool air in and
 condensate drainage. The 1½ inch branch turns down through a 90 degree elbow carrying the
 mic exactly as before, so the Pi never shares the mic
 bore.](img/mic-housing-tee-variant.svg)
 
-A **4×4×1½" reducing tee** gives one assembly with two acoustic domains. The Pi gets its
+A **3×3×1½" reducing tee** gives one assembly with two acoustic domains. The Pi gets its
 own body, and the mic bore stays clean. Sharing a single tube between the two is the
 tempting version and the wrong one: the Pi becomes a large reflector directly above the
 capsule, and it is rigidly coupled to the same plastic the capsule is mounted in.
@@ -251,8 +251,8 @@ Both caps are purchased, not printed:
 
 | Qty | Part | Approx | Notes |
 |-----|------|--------|-------|
-| 1 | Oatey mushroom vent cap, 4" | ~$10 | Top. Sheds rain, passes air. Check it ships with a screen. |
-| 1 | 4" PVC cap, drilled + screened | ~$5 | Bottom. **Never leave it solid** — see below. |
+| 1 | Oatey mushroom vent cap, 3" | ~$10 | Top. Sheds rain, passes air. Check it ships with a screen. |
+| 1 | 3" PVC cap, drilled + screened | ~$5 | Bottom. **Never leave it solid** — see below. |
 | 1 | Stainless mesh + hose clamp | ~$3 | Screening for both ends. |
 
 Don't substitute an NDS drain grate at the bottom. Those fit **sewer-and-drain** pipe at

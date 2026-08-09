@@ -518,19 +518,28 @@ def build_cable(root):
 
 
 TEE = {
-    # 4" DWV run that houses the Pi
-    "run_od": 114.3,
-    "run_wall": 4.83,
-    "run_bot": 40.0,     # open lower end; the inlet cap slips on here
-    "run_top": 400.0,    # open upper end; the outlet cap slips on here
+    # 3" DWV run that houses the Pi. Sized from the board, not by feel: a Pi
+    # Zero 2 W on edge with a 5.5 mm standoff puts its far corner
+    # sqrt(15^2 + 6.9^2) = 16.5 mm off the axis, so ~38 mm of bore would do.
+    # 3" (79.76) leaves room for the sled, the cable and a PoE splitter.
+    #
+    # Not 2": the Oatey mushroom cap is sold for 3" or 4" but not 2", and at 2"
+    # the sled's spine wings shrink to ~7 mm, too narrow to lighten.
+    "run_od": 88.9,
+    "run_wall": 4.57,
+    "run_bot": 70.0,     # open lower end; the inlet cap slips on here
+    "run_top": 300.0,    # open upper end; the outlet cap slips on here
 }
 
 
 def build_tee_body(root):
-    """The 4x4x1-1/2 reducing tee: vertical run for the Pi, branch for the mic.
+    """The 3x3x1-1/2 reducing tee: vertical run for the Pi, branch for the mic.
 
-    VERIFIED. 681669 mm3, 11 faces, one body,
-    bbox x[-24.1, 179.3] y[0, 400] z[+-57.1].
+    VERIFIED. 373558 mm3, one body,
+    bbox x[-28.08, 166.6] y[0, 300] z[+-44.45].
+
+    The two bbox minima are the checks that matter: -28.08 is exactly the 56.16
+    hub radius, and y=0 means the mouth survived the socket cut.
 
     Built by boolean rather than by shelling. `build_elbow` can shell because a
     plain sweep has exactly two planar faces; a tee has none at the junction, and
@@ -542,17 +551,14 @@ def build_tee_body(root):
     the mic housing carries over unchanged; it just arrives integral to the tee
     instead of as a separate fitting. Mouth still sits at the origin facing -Y.
 
-    Sanity figures, all confirmed against the model:
-      outer branch  420300 mm3  (identical to the standalone elbow sweep)
-      outer run    3693898 mm3  (= pi * 57.15^2 * 360)
-      union        4012025 mm3
-      bore union   3416372 mm3
-    The subtraction leaves 681669 rather than 595653 because the bore cylinder
-    deliberately overshoots the run by 5 mm at each end to guarantee a clean cut;
-    that overshoot (2 * 5 * pi * 52.35^2 = 86016 mm3) lies outside the solid.
+    The bore cylinder deliberately overshoots the run by 5 mm at each end so the
+    cut never has to resolve coincident faces. That overshoot lies outside the
+    solid, so the finished volume is larger than (outer union - bore union) by
+    exactly 2 * 5 * pi/4 * run_id^2 - worth knowing before treating the
+    difference as an error.
     """
     p, t = PARAMS, TEE
-    comp = new_component(root, 'PVC 4x4x1-1/2 reducing tee')
+    comp = new_component(root, 'PVC 3x3x1-1/2 reducing tee')
     x_run = p["bend_radius"] + p["leg_cable"]
 
     outer_branch = _sweep_branch(comp, p["pipe_od"])
@@ -664,16 +670,16 @@ SLED = {
     "pi_hole_dx": 58.0,     # mounting hole pitch, long axis
     "pi_hole_dy": 23.0,     # mounting hole pitch, short axis
     # Printed sled
-    "sled_bot": 200.0,      # y at the lower rib
-    "sled_len": 100.0,
+    "sled_bot": 175.0,      # y at the lower rib
+    "sled_len": 92.0,
     "rib_thick": 5.0,
-    "rib_rim": 8.0,
+    "rib_rim": 6.0,
     "sled_clear": 0.4,      # press fit against the run bore
     "spine_thick": 3.0,
-    "spine_half": 46.0,     # overlaps the ribs' inner radius so the JOIN welds
-    "lighten_dia": 26.0,
-    "lighten_x": 30.5,      # outboard of the 30 mm board and its standoffs
-    "lighten_pitch": 34.0,
+    "spine_half": 35.0,     # overlaps the ribs' inner radius so the JOIN welds
+    "lighten_dia": 16.0,
+    "lighten_x": 25.0,      # outboard of the 30 mm board and its standoffs
+    "lighten_pitch": 30.0,
     "standoff": 4.0,
     "standoff_dia": 6.0,
 }
@@ -736,7 +742,7 @@ def build_pi_sled(root):
     y_mid = (y_lo + y_hi) / 2.0
 
     # Lighten the wings. The spine is edge-on to the airflow so it blocks almost
-    # nothing (92 x 3 mm of footprint against an 8601 mm2 bore), but solid it is
+    # nothing (70 x 3 mm of footprint against a 4996 mm2 bore), but solid it is
     # over half the sled's filament. The cutouts sit outboard of the board and
     # its standoffs, and let the two halves of the tube exchange air.
     lsk = comp.sketches.add(comp.xYConstructionPlane)
@@ -984,19 +990,19 @@ def render_all(app, design):
     set_visible(design, ["windjammer"])
 
     written.append(shot(app, "tee-assembly.png",
-                        eye=(700, 430, 620), target=(77, 200, 0)))
+                        eye=(560, 330, 500), target=(66, 150, 0)))
 
     # Same camera, PVC dropped to a quarter. Everything that matters is inside
     # the pipe; opaque, the image is just two tubes.
     set_opacity(design, "PVC", 0.25)
     written.append(shot(app, "tee-cutaway.png",
-                        eye=(700, 430, 620), target=(77, 200, 0)))
+                        eye=(560, 330, 500), target=(66, 150, 0)))
 
     # The Pi bay. Three-quarter rather than square-on: dead ahead renders the
     # board and spine as flat rectangles with no depth cue at all.
     written.append(shot(app, "tee-pi-bay.png",
-                        eye=(x_run + 270, 345, 265), target=(x_run, 250, 0),
-                        extents=120.0))
+                        eye=(x_run + 215, 300, 210), target=(x_run, 221, 0),
+                        extents=100.0))
     set_opacity(design, "PVC", 1.0)
 
     # Mic internals. Hiding the tee and the retainer clears the sight line; the
@@ -1009,7 +1015,7 @@ def render_all(app, design):
     set_visible(design, ["PVC", "lav capsule", "windjammer", "cable",
                          "vent carrier", "retainer", "capsule holder"])
     written.append(shot(app, "tee-printed-sled.png",
-                        eye=(x_run + 240, 350, 260), target=(x_run, 250, 0)))
+                        eye=(x_run + 190, 300, 205), target=(x_run, 221, 0)))
 
     set_visible(design, ["PVC", "lav capsule", "windjammer", "cable", "Pi "])
     written.append(shot(app, "tee-printed-mic.png",

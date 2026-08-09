@@ -35,8 +35,11 @@ it is safe to re-run. It does not save the document.
 
 ## Design decision
 
-The build is the **4x4x1-1/2 reducing tee**, not the standalone elbow: Pi in the
-vertical 4" run, mic in the 1-1/2" branch. `01_elbow.py` is kept because the
+The build is the **3x3x1-1/2 reducing tee**, not the standalone elbow: Pi in the
+vertical 3" run, mic in the 1-1/2" branch. Sized from the board rather than
+by feel: a Pi Zero 2 W on edge with a 5.5 mm standoff needs only ~38 mm of
+bore, so 4" was overkill. Not 2" either - the Oatey cap is sold for 3" or 4"
+but not 2", and at 2" the sled's spine wings are too narrow to lighten. `01_elbow.py` is kept because the
 mic-housing geometry is identical either way, but `06_tee.py` is what the
 assembly uses - the branch arrives integral to the tee rather than as a separate
 fitting. Parts 2-5 are unaffected; they live in the branch bore regardless.
@@ -45,8 +48,8 @@ fitting. Parts 2-5 are unaffected; they live in the branch bore regardless.
 
 | Part | File | Evidence |
 |---|---|---|
-| PVC 4x4x1-1/2 reducing tee | `06_tee.py` | 685932 mm3, one body, bbox x[-28.08, 179.3] y[0, 400] z[+-57.15]. The x and y minima are the checks that matter: -28.08 is exactly the 56.16 hub radius, and y=0 means the mouth is still there. |
-| Pi sled | `07_pi_sled.py` | One welded body, 42570 mm3, bbox x[70.03, 174.27] y[200, 300] z[+-52.12]. Two ribs at 104.24 press-fit the 104.64 bore; six 26 mm cutouts removed 9557 mm3, matching 6 x pi/4 x 26^2 x 3 exactly. |
+| PVC 3x3x1-1/2 reducing tee | `06_tee.py` | 373558 mm3, one body, bbox x[-28.08, 166.6] y[0, 300] z[+-44.45]. The x and y minima are the checks that matter: -28.08 is exactly the 56.16 hub radius, and y=0 means the mouth survived the socket cut. |
+| Pi sled | `07_pi_sled.py` | One welded body, 29901 mm3, bbox x[82.47, 161.83] y[175, 267] z[+-39.68]. Two ribs at 79.36 press-fit the 79.76 bore; six 16 mm lightening cutouts. |
 | Pi board | `07_pi_sled.py` | Reference. 2730 mm3 = 65 x 30 x 1.4 exactly, standing off the spine at z 5.5..6.9. |
 | Cable riser | `07_pi_sled.py` | Reference. Runs the branch cable from where the sweep ends at the run axis (y=132.15) up to the lower rib (y=200). |
 | PVC 1-1/2" DWV 90 elbow | `01_elbow.py` | 126949 mm3, bbox x[-28.08, 122.15] y[0, 160.23] z[+-28.08]. Renders as a DWV 90 with a hub at each end, mouth facing -Y, cable leg +X. |

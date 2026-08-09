@@ -1,17 +1,26 @@
 TEE = {
-    # 4" DWV run that houses the Pi
-    "run_od": 114.3,
-    "run_wall": 4.83,
-    "run_bot": 40.0,     # open lower end; the inlet cap slips on here
-    "run_top": 400.0,    # open upper end; the outlet cap slips on here
+    # 3" DWV run that houses the Pi. Sized from the board, not by feel: a Pi
+    # Zero 2 W on edge with a 5.5 mm standoff puts its far corner
+    # sqrt(15^2 + 6.9^2) = 16.5 mm off the axis, so ~38 mm of bore would do.
+    # 3" (79.76) leaves room for the sled, the cable and a PoE splitter.
+    #
+    # Not 2": the Oatey mushroom cap is sold for 3" or 4" but not 2", and at 2"
+    # the sled's spine wings shrink to ~7 mm, too narrow to lighten.
+    "run_od": 88.9,
+    "run_wall": 4.57,
+    "run_bot": 70.0,     # open lower end; the inlet cap slips on here
+    "run_top": 300.0,    # open upper end; the outlet cap slips on here
 }
 
 
 def build_tee_body(root):
-    """The 4x4x1-1/2 reducing tee: vertical run for the Pi, branch for the mic.
+    """The 3x3x1-1/2 reducing tee: vertical run for the Pi, branch for the mic.
 
-    VERIFIED. 681669 mm3, 11 faces, one body,
-    bbox x[-24.1, 179.3] y[0, 400] z[+-57.1].
+    VERIFIED. 373558 mm3, one body,
+    bbox x[-28.08, 166.6] y[0, 300] z[+-44.45].
+
+    The two bbox minima are the checks that matter: -28.08 is exactly the 56.16
+    hub radius, and y=0 means the mouth survived the socket cut.
 
     Built by boolean rather than by shelling. `build_elbow` can shell because a
     plain sweep has exactly two planar faces; a tee has none at the junction, and
@@ -23,17 +32,14 @@ def build_tee_body(root):
     the mic housing carries over unchanged; it just arrives integral to the tee
     instead of as a separate fitting. Mouth still sits at the origin facing -Y.
 
-    Sanity figures, all confirmed against the model:
-      outer branch  420300 mm3  (identical to the standalone elbow sweep)
-      outer run    3693898 mm3  (= pi * 57.15^2 * 360)
-      union        4012025 mm3
-      bore union   3416372 mm3
-    The subtraction leaves 681669 rather than 595653 because the bore cylinder
-    deliberately overshoots the run by 5 mm at each end to guarantee a clean cut;
-    that overshoot (2 * 5 * pi * 52.35^2 = 86016 mm3) lies outside the solid.
+    The bore cylinder deliberately overshoots the run by 5 mm at each end so the
+    cut never has to resolve coincident faces. That overshoot lies outside the
+    solid, so the finished volume is larger than (outer union - bore union) by
+    exactly 2 * 5 * pi/4 * run_id^2 - worth knowing before treating the
+    difference as an error.
     """
     p, t = PARAMS, TEE
-    comp = new_component(root, 'PVC 4x4x1-1/2 reducing tee')
+    comp = new_component(root, 'PVC 3x3x1-1/2 reducing tee')
     x_run = p["bend_radius"] + p["leg_cable"]
 
     outer_branch = _sweep_branch(comp, p["pipe_od"])
