@@ -41,8 +41,6 @@ mic-housing geometry is identical either way, but `06_tee.py` is what the
 assembly uses - the branch arrives integral to the tee rather than as a separate
 fitting. Parts 2-5 are unaffected; they live in the branch bore regardless.
 
-Still to model: vented caps top and bottom, and the Pi sled.
-
 ## Verified parts
 
 | Part | File | Evidence |
@@ -108,12 +106,12 @@ y =  45 ..      cable, out along the centreline
   with even a 1.5 mm rim already blocks 14% of the bore on its own, before the
   hub or any spokes. The printed number in the build output is the aperture
   figure.
-* **The windjammer is hidden in all four renders.** It is the alternative to
+* **The windjammer is hidden in all six renders.** It is the alternative to
   the vent carrier - a fur muff over the bare capsule - so it deliberately
   occupies the same space as the carrier and holder hub and makes a nonsense
   of any image containing both. It builds correctly and clears the bore
   (22 mm across a 40.90 mm bore).
-* **The elbow is rendered at 30% opacity in the side and mouth images.** There
+* **The tee is rendered at 25% opacity in the cutaway and Pi-bay images.** There
   is no section view in the model; without it the interior is an unlit cavity.
 
 ## Fusion API facts established by probing (do not re-derive)
