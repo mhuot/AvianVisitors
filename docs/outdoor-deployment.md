@@ -48,6 +48,13 @@ a lavalier capsule recessed about 32 mm up inside behind a GORE acoustic vent on
 printed carrier, a printed spoked holder above it, an ePTFE membrane on a mesh backing
 clamped by a retainer at the mouth, and a printed drip lip outside.](img/mic-housing-section.svg)
 
+The same assembly as modelled, with the pipe hidden — capsule, holder and vent carrier
+in the order they stack up the mouth:
+
+![Fusion render of the mic housing internals: an aluminium-coloured lavalier capsule
+seated in a yellow printed vent carrier, with the yellow spoked capsule holder around
+it.](img/tee-mic-detail.png)
+
 - **A 1½" PVC 90° elbow** is the standard cheap answer. Capsule recessed inside the
   horizontal leg, opening facing down.
 - **Never point the capsule up.** Down or horizontal only.
@@ -170,6 +177,18 @@ capsule in a short length of silicone tubing inside the holder.
 [groupgets]: https://groupgets.com/products/set-of-four-splashproof-acoustic-vents-for-the-audiomoth-usb-microphone-case
 [gaw334]: https://groupgets-files.s3.amazonaws.com/AudioMoth/GORE-Acoustic-Vent-GAW334-Datasheet-en.pdf
 
+The four printed parts, isolated:
+
+![Fusion render of the mic's printed parts in yellow: the spoked capsule holder above,
+the retainer ring and drip lip below.](img/tee-printed-mic.png)
+
+![Fusion render of the printed Pi sled: two rings joined by a spine plate with six
+lightening holes, the green Pi board mounted on standoffs.](img/tee-printed-sled.png)
+
+Printed parts render **yellow** in these images. The line drawings use green for
+"printed", but green beside a green PCB reads as the same material, so the renders
+diverge deliberately.
+
 ### Enclosure materials, if you build one anyway
 
 - ABS goes brittle in deep cold and chalks under UV. Use polycarbonate or ASA.
@@ -241,6 +260,18 @@ a printed sled, vented at the top for warm air out and at the bottom for cool ai
 condensate drainage. The 1½ inch branch turns down through a 90 degree elbow carrying the
 mic exactly as before, so the Pi never shares the mic
 bore.](img/mic-housing-tee-variant.svg)
+
+As modelled — 300 mm tall overall, 3.5" across:
+
+![Fusion render of the assembled reducing tee: a white PVC 3 inch vertical run with the
+1.5 inch branch turning down, mouth facing the ground.](img/tee-assembly.png)
+
+![The same view with the PVC at 25% opacity, showing the yellow printed Pi sled and its
+green board in the vertical run, the cable dropping to the branch, and the mic parts at
+the mouth.](img/tee-cutaway.png)
+
+![Close view of the Pi bay: the printed sled's two ribs press-fitting the bore, the
+lightened spine, and the Pi board standing off it.](img/tee-pi-bay.png)
 
 A **3×3×1½" reducing tee** gives one assembly with two acoustic domains. The Pi gets its
 own body, and the mic bore stays clean. Sharing a single tube between the two is the
