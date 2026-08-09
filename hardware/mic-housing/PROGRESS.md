@@ -1,13 +1,14 @@
 # Mic housing Fusion build - progress
 
-**State: reducing-tee assembly complete.** Ten bodies build, six documentation
+**State: reducing-tee assembly complete.** Thirteen bodies build, six documentation
 PNGs are written, and every part below was checked against a render before being
 committed to disk.
 
 Both caps are **purchased, not printed** - an Oatey mushroom vent cap on top and
-a drilled, screened PVC cap below - so they are deliberately not modelled. The
-printed parts are the capsule holder, vent carrier, retainer/drip lip and Pi
-sled.
+a drilled, screened PVC cap below. They are modelled anyway, so the assembly
+renders show the thing you actually hang on the wall and so the clearances above
+and below the run can be checked against real fittings. The parts you print are
+the capsule holder, vent carrier, retainer/drip lip and Pi sled.
 
 `fusion_build.py` is the deliverable. It is `parts/*.py` concatenated in name
 order, separated by two blank lines and a `# ---- <filename>` banner:
@@ -51,6 +52,9 @@ fitting. Parts 2-5 are unaffected; they live in the branch bore regardless.
 | PVC 3x3x1-1/2 reducing tee | `06_tee.py` | 373558 mm3, one body, bbox x[-28.08, 166.6] y[0, 300] z[+-44.45]. The x and y minima are the checks that matter: -28.08 is exactly the 56.16 hub radius, and y=0 means the mouth survived the socket cut. |
 | Pi sled | `07_pi_sled.py` | One welded body, 29901 mm3, bbox x[82.47, 161.83] y[175, 267] z[+-39.68]. Two ribs at 79.36 press-fit the 79.76 bore; six 16 mm lightening cutouts. |
 | Pi board | `07_pi_sled.py` | Reference. 2730 mm3 = 65 x 30 x 1.4 exactly, standing off the spine at z 5.5..6.9. |
+| Mushroom vent cap | `08_caps.py` | Purchased, modelled. 121328 mm3, one body, bbox y[275, 339] x[66.15, 178.15] = the 112 crown centred on the run axis. Skirt clamps the pipe, crown stands off on three posts so air exits radially. |
+| Drain cap | `08_caps.py` | Purchased, modelled. 151064 mm3, bbox y[25, 95]. Slips 25 mm over the pipe end at y=70; eight 8 mm drain holes on a 28 radius plus a centre pass-through for the cable. |
+| PoE cable | `08_caps.py` | Reference. Line-arc-line sweep out of the drain cap to y=-63, i.e. the drip loop sits below the enclosure. |
 | Cable riser | `07_pi_sled.py` | Reference. Runs the branch cable from where the sweep ends at the run axis (y=132.15) up to the lower rib (y=200). |
 | PVC 1-1/2" DWV 90 elbow | `01_elbow.py` | 126949 mm3, bbox x[-28.08, 122.15] y[0, 160.23] z[+-28.08]. Renders as a DWV 90 with a hub at each end, mouth facing -Y, cable leg +X. |
 | Capsule holder | `02_holder.py` | One joined body, 3029 mm3, y 32..38, aperture 80.8% open. Ring, three spokes and hub all read in the mouth render. |

@@ -263,12 +263,14 @@ bore.](img/mic-housing-tee-variant.svg)
 
 As modelled — 300 mm tall overall, 3.5" across:
 
-![Fusion render of the assembled reducing tee: a white PVC 3 inch vertical run with the
-1.5 inch branch turning down, mouth facing the ground.](img/tee-assembly.png)
+![Fusion render of the assembled reducing tee: a white PVC 3 inch vertical run with a
+mushroom vent cap on top standing off on three posts, a drilled cap at the bottom with the
+PoE cable looping away below it, and the 1.5 inch branch turning down with the printed
+drip lip at its mouth.](img/tee-assembly.png)
 
 ![The same view with the PVC at 25% opacity, showing the yellow printed Pi sled and its
-green board in the vertical run, the cable dropping to the branch, and the mic parts at
-the mouth.](img/tee-cutaway.png)
+green board in the vertical run, the cable dropping to the branch, the mic parts at the
+mouth, and the inlet plenum inside the bottom cap.](img/tee-cutaway.png)
 
 ![Close view of the Pi bay: the printed sled's two ribs press-fitting the bore, the
 lightened spine, and the Pi board standing off it.](img/tee-pi-bay.png)

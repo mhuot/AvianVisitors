@@ -22,6 +22,11 @@ def run(_context: str):
     build_pi_board(root)
     build_cable_riser(root)
 
+    # Purchased, but modelled so the assembly renders show the real thing.
+    build_vent_cap(root)
+    build_drain_cap(root)
+    build_poe_cable(root)
+
     paint_all(app, design)
     for path in render_all(app, design):
         print("  ->", path)
