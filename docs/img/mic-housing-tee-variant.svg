@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-70 0 1190 820" width="1190" height="820" role="img" aria-labelledby="title desc">
+  <title id="title">Reducing-tee variant: Pi and mic in one outdoor assembly</title>
+  <desc id="desc">Section through a 4 by 4 by 1.5 inch PVC reducing tee. A vertical 4 inch run holds a Raspberry Pi on a printed sled, with a vented cap at the top as the warm-air outlet and a vented cap at the bottom as the cool-air inlet and condensate drain. A 1.5 inch branch leaves the tee horizontally and turns down through a 90 degree elbow, which carries the microphone capsule exactly as in the mic-only design. The mic bore stays acoustically separate from the Pi.</desc>
+
+  <style>
+    .bgfill   { fill: #ffffff; }
+    .borefill { stroke: #ffffff; }
+    .pvc      { stroke: #d8dce1; }
+    .pvc-f    { fill:   #d8dce1; }
+    .edge     { stroke: #5b6470; }
+    .printed-f{ fill:   #2f9e68; }
+    .pcb-f    { fill:   #1f7a4d; }
+    .capsule-f{ fill:   #3f4652; }
+    .fur-s    { stroke: #b08968; }
+    .fur-f    { fill:   #b08968; }
+    .vent-f   { fill:   #d9682b; }
+    .cable-s  { stroke: #4b5563; }
+    .air-s    { stroke: #3b82f6; }
+    .air-f    { fill:   #3b82f6; }
+    .mesh-s   { stroke: #8b93a1; }
+    .label    { fill:   #1f2430; }
+    .sub      { fill:   #6b7280; }
+    .lead     { stroke: #9aa1ad; }
+
+    @media (prefers-color-scheme: dark) {
+      .bgfill   { fill: #14161a; }
+      .borefill { stroke: #14161a; }
+      .pvc      { stroke: #3a4048; }
+      .pvc-f    { fill:   #3a4048; }
+      .edge     { stroke: #98a2b3; }
+      .printed-f{ fill:   #4ade80; }
+      .pcb-f    { fill:   #35a06a; }
+      .capsule-f{ fill:   #cbd5e1; }
+      .fur-s    { stroke: #c39a75; }
+      .fur-f    { fill:   #c39a75; }
+      .vent-f   { fill:   #fb923c; }
+      .cable-s  { stroke: #9ca3af; }
+      .air-s    { stroke: #60a5fa; }
+      .air-f    { fill:   #60a5fa; }
+      .mesh-s   { stroke: #6b7280; }
+      .label    { fill:   #e5e7eb; }
+      .sub      { fill:   #9ca3af; }
+      .lead     { stroke: #6b7280; }
+    }
+
+    text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .t-title { font-size: 23px; font-weight: 600; }
+    .t-sub   { font-size: 14px; }
+    .t-lab   { font-size: 15px; }
+    .t-small { font-size: 13px; }
+  </style>
+
+  <defs>
+    <pattern id="meshpat2" width="9" height="9" patternUnits="userSpaceOnUse">
+      <path d="M0,0 L9,9 M9,0 L0,9" class="mesh-s" stroke-width="1.1" fill="none"/>
+    </pattern>
+    <marker id="airarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,1.5 L8,5 L0,8.5 z" class="air-f"/>
+    </marker>
+  </defs>
+
+  <rect x="-70" y="0" width="1190" height="820" class="bgfill"/>
+
+  <text x="40" y="46" class="label t-title">Reducing-tee variant — Pi outdoors</text>
+  <text x="40" y="70" class="sub t-sub">4&#215;4&#215;1½&#8243; PVC reducing tee. One assembly, two acoustic domains.</text>
+
+  <!-- ============ pipe walls ============ -->
+  <!-- 4" vertical run -->
+  <path d="M 300,120 V 590" class="edge" stroke-width="220" stroke-linecap="butt" fill="none"/>
+  <path d="M 300,120 V 590" class="pvc"  stroke-width="217" stroke-linecap="butt" fill="none"/>
+  <!-- 1.5" branch, turning down through a 90 -->
+  <path d="M 300,460 H 540 A 108,108 0 0 1 648,568 V 700" class="edge" stroke-width="95" stroke-linecap="butt" fill="none"/>
+  <path d="M 300,460 H 540 A 108,108 0 0 1 648,568 V 700" class="pvc"  stroke-width="92" stroke-linecap="butt" fill="none"/>
+
+  <!-- ============ bores ============ -->
+  <path d="M 300,120 V 590" class="edge"     stroke-width="201" stroke-linecap="butt" fill="none"/>
+  <path d="M 300,120 V 590" class="borefill" stroke-width="198" stroke-linecap="butt" fill="none"/>
+  <path d="M 396,460 H 540 A 108,108 0 0 1 648,568 V 706" class="edge"     stroke-width="81" stroke-linecap="butt" fill="none"/>
+  <path d="M 396,460 H 540 A 108,108 0 0 1 648,568 V 706" class="borefill" stroke-width="78" stroke-linecap="butt" fill="none"/>
+
+  <!-- ============ caps ============ -->
+  <!-- top: warm-air outlet, skirted so rain cannot fall straight in -->
+  <g>
+    <rect x="182" y="84" width="236" height="36" class="pvc-f"/>
+    <rect x="182" y="84" width="236" height="36" class="edge" fill="none" stroke-width="1.5"/>
+    <rect x="186" y="120" width="14" height="26" class="pvc-f"/>
+    <rect x="400" y="120" width="14" height="26" class="pvc-f"/>
+    <g class="bgfill">
+      <rect x="214" y="96" width="10" height="14"/><rect x="240" y="96" width="10" height="14"/>
+      <rect x="266" y="96" width="10" height="14"/><rect x="292" y="96" width="10" height="14"/>
+      <rect x="318" y="96" width="10" height="14"/><rect x="344" y="96" width="10" height="14"/>
+      <rect x="370" y="96" width="10" height="14"/>
+    </g>
+  </g>
+  <!-- bottom: cool-air inlet and condensate drain, holes facing down -->
+  <g>
+    <rect x="182" y="590" width="236" height="36" class="pvc-f"/>
+    <rect x="182" y="590" width="236" height="36" class="edge" fill="none" stroke-width="1.5"/>
+    <g class="bgfill">
+      <rect x="214" y="600" width="10" height="14"/><rect x="240" y="600" width="10" height="14"/>
+      <rect x="266" y="600" width="10" height="14"/><rect x="292" y="600" width="10" height="14"/>
+      <rect x="318" y="600" width="10" height="14"/><rect x="344" y="600" width="10" height="14"/>
+      <rect x="370" y="600" width="10" height="14"/>
+    </g>
+  </g>
+
+  <!-- ============ Pi on a printed sled ============ -->
+  <rect x="236" y="186" width="11" height="196" class="printed-f"/>
+  <rect x="353" y="186" width="11" height="196" class="printed-f"/>
+  <rect x="247" y="200" width="106" height="162" class="pcb-f"/>
+  <g class="capsule-f">
+    <rect x="262" y="216" width="44" height="30" rx="2"/>
+    <rect x="262" y="262" width="26" height="16" rx="2"/>
+    <rect x="300" y="262" width="20" height="16" rx="2"/>
+    <rect x="262" y="300" width="76" height="18" rx="2"/>
+    <rect x="262" y="330" width="34" height="16" rx="2"/>
+  </g>
+
+  <!-- ============ airflow ============ -->
+  <g class="air-s" stroke-width="2.4" fill="none" stroke-dasharray="7 6" marker-end="url(#airarrow)" opacity="0.9">
+    <path d="M222,566 V150"/>
+    <path d="M378,566 V150"/>
+  </g>
+
+  <!-- ============ mic internals in the 1.5in elbow ============ -->
+  <ellipse cx="648" cy="636" rx="26" ry="24" class="fur-f" opacity="0.18"/>
+  <ellipse cx="648" cy="636" rx="26" ry="24" class="fur-s" fill="none" stroke-width="1.8" stroke-dasharray="3 4"/>
+  <g class="fur-s" stroke-width="1.4" opacity="0.75">
+    <path d="M622,628 l-7,-2 M622,636 l-8,0 M622,644 l-7,2"/>
+    <path d="M674,628 l7,-2 M674,636 l8,0 M674,644 l7,2"/>
+  </g>
+  <rect x="642" y="614" width="12" height="34" rx="2" class="capsule-f"/>
+  <rect x="636" y="648" width="24" height="5" class="vent-f"/>
+  <rect x="609" y="682" width="78" height="8" fill="url(#meshpat2)"/>
+  <rect x="609" y="678" width="10" height="16" class="printed-f"/>
+  <rect x="677" y="678" width="10" height="16" class="printed-f"/>
+
+  <!-- ============ cable: mic up to the Pi ============ -->
+  <path d="M 300,368 V 460 H 540 A 108,108 0 0 1 648,568 V 614" class="cable-s" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+  <!-- ============ PoE entry ============ -->
+  <path d="M 262,626 V 690 q 0,26 26,26 H 330" class="cable-s" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <rect x="254" y="620" width="16" height="12" class="printed-f"/>
+
+  <!-- ============ leaders ============ -->
+  <g class="lead" stroke-width="1.3" fill="none">
+    <path d="M170,100 H180"/>
+    <path d="M170,282 L234,282"/>
+    <path d="M170,608 H180"/>
+    <path d="M170,360 L218,360"/>
+    <path d="M736,452 L420,458"/>
+    <path d="M736,540 L692,556"/>
+    <path d="M736,624 L676,632"/>
+    <path d="M736,706 L660,700"/>
+    <path d="M420,742 L332,724"/>
+  </g>
+
+  <g class="label t-lab">
+    <text x="164" y="105" text-anchor="end">Vented cap — outlet</text>
+    <text x="164" y="287" text-anchor="end">Pi on printed sled</text>
+    <text x="164" y="365" text-anchor="end">Convection path</text>
+    <text x="164" y="613" text-anchor="end">Vented cap — inlet</text>
+    <text x="744" y="457">4&#215;4&#215;1½&#8243; reducing tee</text>
+    <text x="744" y="545">1½&#8243; 90° elbow</text>
+    <text x="744" y="629">Capsule + windjammer</text>
+    <text x="744" y="711">Mouth down, open</text>
+    <text x="428" y="747">PoE in — gland, drip loop outside</text>
+  </g>
+
+  <g class="sub t-small">
+    <text x="164" y="305" text-anchor="end">mounted vertically, on edge</text>
+    <text x="164" y="383" text-anchor="end">cool in low, warm out high</text>
+    <text x="164" y="631" text-anchor="end">+ drain, holes face down</text>
+    <text x="744" y="563">the mic housing, unchanged</text>
+    <text x="744" y="647">vent carrier + mesh as before</text>
+  </g>
+
+  <text x="744" y="392" class="label t-lab">Two acoustic domains</text>
+  <text x="744" y="412" class="sub t-small">the Pi never shares the mic bore, so it</text>
+  <text x="744" y="429" class="sub t-small">cannot reflect into or rattle the capsule</text>
+
+  <!-- ============ legend ============ -->
+  <g transform="translate(40,770)">
+    <rect x="0"   y="0" width="16" height="12" class="pvc-f"/>
+    <text x="24"  y="10" class="sub t-small">PVC</text>
+    <rect x="76"  y="0" width="16" height="12" class="printed-f"/>
+    <text x="100" y="10" class="sub t-small">printed in ASA</text>
+    <rect x="212" y="0" width="16" height="12" class="pcb-f"/>
+    <text x="236" y="10" class="sub t-small">Raspberry Pi</text>
+    <rect x="346" y="0" width="16" height="12" class="vent-f"/>
+    <text x="370" y="10" class="sub t-small">ePTFE membrane</text>
+    <rect x="506" y="0" width="16" height="12" class="air-f"/>
+    <text x="530" y="10" class="sub t-small">airflow</text>
+  </g>
+</svg>

@@ -205,7 +205,23 @@ by the window anyway.
 
 ## If the Pi really must go outside
 
-Not recommended, but if there's no way to get a cable indoors:
+The USB lavalier's cable is only about 6 ft, so if there is no indoor spot within that
+distance — a pole in the yard, a detached garage, a far corner — the Pi has to live at
+the mic. In that case put it in its **own** body, not in the mic's.
+
+![Section through a 4x4x1½ inch PVC reducing tee. The vertical 4 inch run holds a Pi on
+a printed sled, vented at the top for warm air out and at the bottom for cool air in and
+condensate drainage. The 1½ inch branch turns down through a 90 degree elbow carrying the
+mic exactly as before, so the Pi never shares the mic
+bore.](img/mic-housing-tee-variant.svg)
+
+A **4×4×1½" reducing tee** gives one assembly with two acoustic domains. The Pi gets a
+chimney instead of a dead-end pocket, and the mic bore stays clean. Sharing a single tube
+between the two is the tempting version and the wrong one: the Pi becomes a large
+reflector directly above the capsule, and the two thermal layouts fight — the mic wants
+one opening at the bottom, the Pi wants cool air low and warm air out high.
+
+Whichever body you choose:
 
 - IP65/66 polycarbonate enclosure **with a pressure-equalization vent**. Without the
   vent, a "waterproof" box fills with condensation from the inside.
