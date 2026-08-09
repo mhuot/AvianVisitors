@@ -6,13 +6,18 @@ IMAGE_W, IMAGE_H = 2000, 1500
 # Fusion Appearance Library. There is no "PVC" appearance, so DWV white is
 # stood in for by glossy white plastic.
 PALETTE = [
+    # Verified present in the installed Fusion Appearance Library. Printed parts
+    # are yellow rather than the green the SVG drawings use: green next to a
+    # green PCB reads as the same material, and filament yellow is unambiguous.
     ("PVC", "Plastic - Glossy (White)"),
-    ("capsule holder", "Plastic - Matte (Gray)"),
-    ("vent carrier", "Plastic - Matte (Gray)"),
-    ("retainer", "Plastic - Matte (Gray)"),
-    ("lav capsule", "Aluminum - Polished"),
+    ("capsule holder", "Plastic - Matte (Yellow)"),
+    ("vent carrier", "Plastic - Matte (Yellow)"),
+    ("retainer", "Plastic - Matte (Yellow)"),
+    ("Pi sled", "Plastic - Matte (Yellow)"),
+    ("Pi board", "Plastic - Glossy (Green)"),
+    ("lav capsule", "Aluminum - Anodized Glossy (Grey)"),
     ("windjammer", "Fabric (Grey)"),
-    ("cable", "Rubber - Soft"),
+    ("cable", "Plastic - Matte (Black)"),
 ]
 
 
@@ -138,36 +143,55 @@ def shot(app, filename, eye, target, up=(0.0, 1.0, 0.0), extents=None):
 
 
 def render_all(app, design):
+    """Six images of the reducing-tee station.
+
+    The tee is 400 mm tall against a 6 mm capsule, so no single framing carries
+    both. Two overall views establish the assembly, two show the interiors, and
+    two isolate the printed parts.
+
+    Fragments passed to set_visible are matched as substrings, so they have to be
+    chosen with care: "capsule" alone would also hide the capsule holder.
+    """
     if not os.path.isdir(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
     written = []
+    x_run = PARAMS["bend_radius"] + PARAMS["leg_cable"]
 
-    # The windjammer is the alternative to the vent carrier and shares its
-    # space, so it stays hidden in every documentation image.
+    # The windjammer is the alternative to the vent carrier and occupies the
+    # same space, so it stays hidden in every documentation image.
     set_visible(design, ["windjammer"])
-    written.append(shot(app, "mic-housing-assembly.png",
-                        eye=(300, 120, 300), target=(45, 70, 0)))
 
-    # Side elevation and the view up the mouth both need the PVC translucent.
-    # Without it the elbow is an opaque tube and the interior renders as a black
-    # hole: the recess, the holder and the vent port are all inside it.
-    set_opacity(design, "PVC", 0.30)
-    written.append(shot(app, "mic-housing-side.png",
-                        eye=(20, 70, 420), target=(20, 62, 0)))
+    written.append(shot(app, "tee-assembly.png",
+                        eye=(700, 430, 620), target=(77, 200, 0)))
 
-    # Straight up the mouth axis. This one needs a hand-framed orthographic
-    # camera - a fit would recentre on the whole elbow and look up the bend
-    # instead - so up is +Z here, the view direction being +Y.
-    written.append(shot(app, "mic-housing-mouth.png",
-                        eye=(0, -160, 0), target=(0, 30, 0), up=(0, 0, 1),
-                        extents=60.0))
+    # Same camera, PVC dropped to a quarter. Everything that matters is inside
+    # the pipe; opaque, the image is just two tubes.
+    set_opacity(design, "PVC", 0.25)
+    written.append(shot(app, "tee-cutaway.png",
+                        eye=(700, 430, 620), target=(77, 200, 0)))
+
+    # The Pi bay. Three-quarter rather than square-on: dead ahead renders the
+    # board and spine as flat rectangles with no depth cue at all.
+    written.append(shot(app, "tee-pi-bay.png",
+                        eye=(x_run + 270, 345, 265), target=(x_run, 250, 0),
+                        extents=120.0))
     set_opacity(design, "PVC", 1.0)
 
-    # Detail on the capsule and vent carrier. Hiding the elbow and the retainer
-    # clears the sight line; the holder stays because it is what traps the two
-    # of them together.
+    # Mic internals. Hiding the tee and the retainer clears the sight line; the
+    # holder stays because it is what traps the capsule and carrier together.
     set_visible(design, ["windjammer", "PVC", "retainer"])
-    written.append(shot(app, "mic-housing-detail.png",
+    written.append(shot(app, "tee-mic-detail.png",
                         eye=(60, 22, 70), target=(0, 36, 0), extents=22.0))
+
+    # Printed parts on their own - what you actually send to the slicer.
+    set_visible(design, ["PVC", "lav capsule", "windjammer", "cable",
+                         "vent carrier", "retainer", "capsule holder"])
+    written.append(shot(app, "tee-printed-sled.png",
+                        eye=(x_run + 240, 350, 260), target=(x_run, 250, 0)))
+
+    set_visible(design, ["PVC", "lav capsule", "windjammer", "cable", "Pi "])
+    written.append(shot(app, "tee-printed-mic.png",
+                        eye=(80, 66, 88), target=(0, 14, 0), extents=86.0))
+
     set_visible(design, ["windjammer"])
     return written

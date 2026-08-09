@@ -46,12 +46,38 @@ def build_tee_body(root):
     _combine(comp, bore_branch, bore_run, JOIN)
 
     _combine(comp, outer_branch, bore_branch, CUT)
+    _mouth_socket(comp, outer_branch)
     outer_branch.name = "tee body"
 
     if comp.bRepBodies.count != 1:
         raise RuntimeError("tee left %d bodies, expected 1" % comp.bRepBodies.count)
     report(comp)
     return comp
+
+
+def _mouth_socket(comp, body):
+    """Counterbore the branch mouth to `socket_id` for `socket_depth`.
+
+    A real reducing tee's branch is a hub - you glue pipe into it - so this is
+    what the fitting actually looks like. It also matters structurally here:
+    `build_retainer_and_lip` is sized to the 48.80 socket, not the 40.90 bore,
+    so without this the retainer has nothing to grip and falls straight out.
+    """
+    p = PARAMS
+    hub_od = p["socket_id"] + 2 * p["wall"]
+    hub_len = p["socket_depth"] + p["hub_shoulder"]
+    bore = p["pipe_od"] - 2 * p["wall"]
+    base = mouth_plane(comp, 0.0)
+
+    # The socket is WIDER than the pipe it receives (48.80 vs 48.26), so it can
+    # only be cut into a hub. Counterboring the bare swept branch just saws the
+    # mouth off - the cutter is larger than the tube's outside diameter.
+    extrude(comp, circle_profile(comp.sketches.add(base), hub_od), hub_len, JOIN)
+    # The hub goes on as a solid slug, so reopen the through bore behind it...
+    extrude(comp, circle_profile(comp.sketches.add(base), bore), hub_len, CUT)
+    # ...then take the socket itself out of the first socket_depth.
+    extrude(comp, circle_profile(comp.sketches.add(base), p["socket_id"]),
+            p["socket_depth"], CUT)
 
 
 def _sweep_branch(comp, dia):

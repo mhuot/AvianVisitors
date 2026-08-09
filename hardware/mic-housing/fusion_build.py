@@ -514,6 +514,309 @@ def build_cable(root):
     return comp
 
 
+# ----------------------------------------------------------------- 06_tee.py
+
+
+TEE = {
+    # 4" DWV run that houses the Pi
+    "run_od": 114.3,
+    "run_wall": 4.83,
+    "run_bot": 40.0,     # open lower end; the inlet cap slips on here
+    "run_top": 400.0,    # open upper end; the outlet cap slips on here
+}
+
+
+def build_tee_body(root):
+    """The 4x4x1-1/2 reducing tee: vertical run for the Pi, branch for the mic.
+
+    VERIFIED. 681669 mm3, 11 faces, one body,
+    bbox x[-24.1, 179.3] y[0, 400] z[+-57.1].
+
+    Built by boolean rather than by shelling. `build_elbow` can shell because a
+    plain sweep has exactly two planar faces; a tee has none at the junction, and
+    asking Fusion to shell "every planar face" there picks up the wrong set. So
+    union the two outer solids, union the two bores, and subtract - every face is
+    then implied by geometry rather than selected.
+
+    The branch is the same line -> arc -> line sweep as the standalone elbow, so
+    the mic housing carries over unchanged; it just arrives integral to the tee
+    instead of as a separate fitting. Mouth still sits at the origin facing -Y.
+
+    Sanity figures, all confirmed against the model:
+      outer branch  420300 mm3  (identical to the standalone elbow sweep)
+      outer run    3693898 mm3  (= pi * 57.15^2 * 360)
+      union        4012025 mm3
+      bore union   3416372 mm3
+    The subtraction leaves 681669 rather than 595653 because the bore cylinder
+    deliberately overshoots the run by 5 mm at each end to guarantee a clean cut;
+    that overshoot (2 * 5 * pi * 52.35^2 = 86016 mm3) lies outside the solid.
+    """
+    p, t = PARAMS, TEE
+    comp = new_component(root, 'PVC 4x4x1-1/2 reducing tee')
+    x_run = p["bend_radius"] + p["leg_cable"]
+
+    outer_branch = _sweep_branch(comp, p["pipe_od"])
+    outer_run = _run_cylinder(comp, t["run_od"], t["run_bot"], t["run_top"], x_run)
+    _combine(comp, outer_branch, outer_run, JOIN)
+
+    bore_branch = _sweep_branch(comp, p["pipe_od"] - 2 * p["wall"])
+    bore_run = _run_cylinder(comp, t["run_od"] - 2 * t["run_wall"],
+                             t["run_bot"] - 5, t["run_top"] + 5, x_run)
+    _combine(comp, bore_branch, bore_run, JOIN)
+
+    _combine(comp, outer_branch, bore_branch, CUT)
+    _mouth_socket(comp, outer_branch)
+    outer_branch.name = "tee body"
+
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError("tee left %d bodies, expected 1" % comp.bRepBodies.count)
+    report(comp)
+    return comp
+
+
+def _mouth_socket(comp, body):
+    """Counterbore the branch mouth to `socket_id` for `socket_depth`.
+
+    A real reducing tee's branch is a hub - you glue pipe into it - so this is
+    what the fitting actually looks like. It also matters structurally here:
+    `build_retainer_and_lip` is sized to the 48.80 socket, not the 40.90 bore,
+    so without this the retainer has nothing to grip and falls straight out.
+    """
+    p = PARAMS
+    hub_od = p["socket_id"] + 2 * p["wall"]
+    hub_len = p["socket_depth"] + p["hub_shoulder"]
+    bore = p["pipe_od"] - 2 * p["wall"]
+    base = mouth_plane(comp, 0.0)
+
+    # The socket is WIDER than the pipe it receives (48.80 vs 48.26), so it can
+    # only be cut into a hub. Counterboring the bare swept branch just saws the
+    # mouth off - the cutter is larger than the tube's outside diameter.
+    extrude(comp, circle_profile(comp.sketches.add(base), hub_od), hub_len, JOIN)
+    # The hub goes on as a solid slug, so reopen the through bore behind it...
+    extrude(comp, circle_profile(comp.sketches.add(base), bore), hub_len, CUT)
+    # ...then take the socket itself out of the first socket_depth.
+    extrude(comp, circle_profile(comp.sketches.add(base), p["socket_id"]),
+            p["socket_depth"], CUT)
+
+
+def _sweep_branch(comp, dia):
+    """Mic branch: mouth at the origin facing -Y, running +X to meet the run."""
+    p = PARAMS
+    r, lm, lc = p["bend_radius"], p["leg_mouth"], p["leg_cable"]
+    sk = comp.sketches.add(comp.xYConstructionPlane)
+    lines, arcs = sk.sketchCurves.sketchLines, sk.sketchCurves.sketchArcs
+    first = lines.addByTwoPoints(pt(0, 0, 0), pt(0, lm, 0))
+    arc = arcs.addByCenterStartSweep(pt(r, lm, 0), first.endSketchPoint,
+                                     -math.pi / 2.0)
+    knee = pt(0, lm, 0)
+    a0, a1 = arc.startSketchPoint, arc.endSketchPoint
+    far = a0 if a0.geometry.distanceTo(knee) > a1.geometry.distanceTo(knee) else a1
+    lines.addByTwoPoints(far, pt(r + lc, lm + r, 0))
+
+    path = comp.features.createPath(first, True)
+    if path.count != 3:
+        raise RuntimeError("branch chained %d segments, expected 3" % path.count)
+
+    psk = comp.sketches.add(comp.xZConstructionPlane)
+    circle_profile(psk, dia)
+    sweeps = comp.features.sweepFeatures
+    return sweeps.add(sweeps.createInput(
+        psk.profiles.item(0), path, NEW)).bodies.item(0)
+
+
+def _run_cylinder(comp, dia, y_lo, y_hi, x_at):
+    """Vertical run. Extruded symmetric about XZ then translated, so the result
+    never depends on which way the plane normal points."""
+    length = y_hi - y_lo
+    sk = comp.sketches.add(comp.xZConstructionPlane)
+    circle_profile(sk, dia, cx=x_at)
+    ex = comp.features.extrudeFeatures
+    ei = ex.createInput(sk.profiles.item(0), NEW)
+    ei.setSymmetricExtent(vi(length), True)
+    body = ex.add(ei).bodies.item(0)
+
+    col = adsk.core.ObjectCollection.create()
+    col.add(body)
+    m = adsk.core.Matrix3D.create()
+    m.translation = adsk.core.Vector3D.create(0, mm(y_lo + length / 2.0), 0)
+    comp.features.moveFeatures.add(
+        comp.features.moveFeatures.createInput(col, m))
+    return body
+
+
+def _combine(comp, target, tool, operation):
+    col = adsk.core.ObjectCollection.create()
+    col.add(tool)
+    ci = comp.features.combineFeatures.createInput(target, col)
+    ci.operation = operation
+    return comp.features.combineFeatures.add(ci)
+
+
+# ------------------------------------------------------------- 07_pi_sled.py
+
+
+SLED = {
+    # Raspberry Pi Zero 2 W. It is the right board for this build: ~1.5 W against
+    # a Pi 4's ~5 W, which is most of the reason no active cooling is needed.
+    "pi_len": 65.0,
+    "pi_wid": 30.0,
+    "pi_thick": 1.4,
+    "pi_hole_dx": 58.0,     # mounting hole pitch, long axis
+    "pi_hole_dy": 23.0,     # mounting hole pitch, short axis
+    # Printed sled
+    "sled_bot": 200.0,      # y at the lower rib
+    "sled_len": 100.0,
+    "rib_thick": 5.0,
+    "rib_rim": 8.0,
+    "sled_clear": 0.4,      # press fit against the run bore
+    "spine_thick": 3.0,
+    "spine_half": 46.0,     # overlaps the ribs' inner radius so the JOIN welds
+    "lighten_dia": 26.0,
+    "lighten_x": 30.5,      # outboard of the 30 mm board and its standoffs
+    "lighten_pitch": 34.0,
+    "standoff": 4.0,
+    "standoff_dia": 6.0,
+}
+
+
+def _run_axis_x():
+    return PARAMS["bend_radius"] + PARAMS["leg_cable"]
+
+
+def _move(comp, body, dx=0.0, dy=0.0, dz=0.0):
+    col = adsk.core.ObjectCollection.create()
+    col.add(body)
+    m = adsk.core.Matrix3D.create()
+    m.translation = adsk.core.Vector3D.create(mm(dx), mm(dy), mm(dz))
+    comp.features.moveFeatures.add(comp.features.moveFeatures.createInput(col, m))
+
+
+def build_pi_sled(root):
+    """Printed carrier that press-fits the 4in run and holds the Pi on edge.
+
+    Two ribs centre it in the bore; a spine plate across the diameter carries the
+    board. The board sits in a plane containing the run axis, so both faces see
+    the full height of the tube and neither is pressed against a wall.
+
+    The ribs are rings rather than discs for the same reason the capsule holder
+    is: a disc across the bore would dam the convection path and, at the bottom,
+    hold water.
+    """
+    p, s = PARAMS, SLED
+    comp = new_component(root, "Printed - Pi sled")
+    x_run = _run_axis_x()
+    run_id = TEE["run_od"] - 2 * TEE["run_wall"]
+    rib_od = run_id - s["sled_clear"]
+    rib_id = rib_od - 2 * s["rib_rim"]
+    y_lo, y_hi = s["sled_bot"], s["sled_bot"] + s["sled_len"]
+
+    lower = comp.sketches.add(mouth_plane(comp, y_lo))
+    body = extrude(comp, ring_profile(lower, rib_od, rib_id, cx=x_run),
+                   s["rib_thick"], NEW).bodies.item(0)
+    body.name = "Pi sled"
+
+    upper = comp.sketches.add(mouth_plane(comp, y_hi - s["rib_thick"]))
+    extrude(comp, ring_profile(upper, rib_od, rib_id, cx=x_run),
+            s["rib_thick"], JOIN)
+
+    # Spine: sketched on XY (normal +Z) and extruded symmetric, so it straddles
+    # z=0 and no extrude direction has to be guessed.
+    ssk = comp.sketches.add(comp.xYConstructionPlane)
+    half = s["spine_half"]
+    corners = [pt(x_run - half, y_lo, 0), pt(x_run + half, y_lo, 0),
+               pt(x_run + half, y_hi, 0), pt(x_run - half, y_hi, 0)]
+    lines = ssk.sketchCurves.sketchLines
+    for i in range(4):
+        lines.addByTwoPoints(corners[i], corners[(i + 1) % 4])
+    ex = comp.features.extrudeFeatures
+    ei = ex.createInput(ssk.profiles.item(0), JOIN)
+    ei.setSymmetricExtent(vi(s["spine_thick"]), True)
+    ex.add(ei)
+
+    y_mid = (y_lo + y_hi) / 2.0
+
+    # Lighten the wings. The spine is edge-on to the airflow so it blocks almost
+    # nothing (92 x 3 mm of footprint against an 8601 mm2 bore), but solid it is
+    # over half the sled's filament. The cutouts sit outboard of the board and
+    # its standoffs, and let the two halves of the tube exchange air.
+    lsk = comp.sketches.add(comp.xYConstructionPlane)
+    for sx in (-1, 1):
+        for row in (-1, 0, 1):
+            lsk.sketchCurves.sketchCircles.addByCenterRadius(
+                pt(x_run + sx * s["lighten_x"], y_mid + row * s["lighten_pitch"], 0),
+                mm(s["lighten_dia"] / 2.0))
+    holes = adsk.core.ObjectCollection.create()
+    for prof in lsk.profiles:
+        holes.add(prof)
+    ei = ex.createInput(holes, CUT)
+    ei.setSymmetricExtent(vi(s["spine_thick"] * 4), True)
+    ex.add(ei)
+
+    # Standoffs, on the +Z face only. The board hangs off one side; the other
+    # side stays clear so air is not funnelled through a 4 mm slot.
+    hsk = comp.sketches.add(comp.xYConstructionPlane)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            hsk.sketchCurves.sketchCircles.addByCenterRadius(
+                pt(x_run + sx * s["pi_hole_dy"] / 2.0,
+                   y_mid + sy * s["pi_hole_dx"] / 2.0, 0),
+                mm(s["standoff_dia"] / 2.0))
+    posts = adsk.core.ObjectCollection.create()
+    for prof in hsk.profiles:
+        posts.add(prof)
+    ei = ex.createInput(posts, JOIN)
+    ei.setDistanceExtent(False, vi(s["spine_thick"] / 2.0 + s["standoff"]))
+    ex.add(ei)
+
+    if comp.bRepBodies.count != 1:
+        raise RuntimeError("sled left %d bodies, expected 1 welded body"
+                           % comp.bRepBodies.count)
+    report(comp)
+    return comp
+
+
+def build_pi_board(root):
+    """Reference only - a Pi Zero 2 W stood in for by its board outline."""
+    s = SLED
+    comp = new_component(root, "Reference - Pi board")
+    x_run = _run_axis_x()
+    y_mid = s["sled_bot"] + s["sled_len"] / 2.0
+
+    sk = comp.sketches.add(comp.xYConstructionPlane)
+    hw, hl = s["pi_wid"] / 2.0, s["pi_len"] / 2.0
+    corners = [pt(x_run - hw, y_mid - hl, 0), pt(x_run + hw, y_mid - hl, 0),
+               pt(x_run + hw, y_mid + hl, 0), pt(x_run - hw, y_mid + hl, 0)]
+    lines = sk.sketchCurves.sketchLines
+    for i in range(4):
+        lines.addByTwoPoints(corners[i], corners[(i + 1) % 4])
+    ex = comp.features.extrudeFeatures
+    ei = ex.createInput(sk.profiles.item(0), NEW)
+    ei.setSymmetricExtent(vi(s["pi_thick"]), True)
+    body = ex.add(ei).bodies.item(0)
+    body.name = "Pi board"
+    _move(comp, body, dz=s["spine_thick"] / 2.0 + s["standoff"]
+          + s["pi_thick"] / 2.0)
+    report(comp)
+    return comp
+
+
+def build_cable_riser(root):
+    """The mic cable, continuing from where the branch sweep ends at the run
+    axis up to the underside of the sled. Stops at the lower rib rather than
+    passing through the spine."""
+    p, s = PARAMS, SLED
+    comp = new_component(root, "Reference - cable riser")
+    x_run = _run_axis_x()
+    y0 = p["leg_mouth"] + p["bend_radius"]
+
+    sk = comp.sketches.add(mouth_plane(comp, y0))
+    body = extrude(comp, circle_profile(sk, p["cable_dia"], cx=x_run),
+                   s["sled_bot"] - y0, NEW).bodies.item(0)
+    body.name = "cable riser"
+    report(comp)
+    return comp
+
+
 # -------------------------------------------------------------- 98_render.py
 
 
@@ -525,13 +828,18 @@ IMAGE_W, IMAGE_H = 2000, 1500
 # Fusion Appearance Library. There is no "PVC" appearance, so DWV white is
 # stood in for by glossy white plastic.
 PALETTE = [
+    # Verified present in the installed Fusion Appearance Library. Printed parts
+    # are yellow rather than the green the SVG drawings use: green next to a
+    # green PCB reads as the same material, and filament yellow is unambiguous.
     ("PVC", "Plastic - Glossy (White)"),
-    ("capsule holder", "Plastic - Matte (Gray)"),
-    ("vent carrier", "Plastic - Matte (Gray)"),
-    ("retainer", "Plastic - Matte (Gray)"),
-    ("lav capsule", "Aluminum - Polished"),
+    ("capsule holder", "Plastic - Matte (Yellow)"),
+    ("vent carrier", "Plastic - Matte (Yellow)"),
+    ("retainer", "Plastic - Matte (Yellow)"),
+    ("Pi sled", "Plastic - Matte (Yellow)"),
+    ("Pi board", "Plastic - Glossy (Green)"),
+    ("lav capsule", "Aluminum - Anodized Glossy (Grey)"),
     ("windjammer", "Fabric (Grey)"),
-    ("cable", "Rubber - Soft"),
+    ("cable", "Plastic - Matte (Black)"),
 ]
 
 
@@ -657,37 +965,56 @@ def shot(app, filename, eye, target, up=(0.0, 1.0, 0.0), extents=None):
 
 
 def render_all(app, design):
+    """Six images of the reducing-tee station.
+
+    The tee is 400 mm tall against a 6 mm capsule, so no single framing carries
+    both. Two overall views establish the assembly, two show the interiors, and
+    two isolate the printed parts.
+
+    Fragments passed to set_visible are matched as substrings, so they have to be
+    chosen with care: "capsule" alone would also hide the capsule holder.
+    """
     if not os.path.isdir(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
     written = []
+    x_run = PARAMS["bend_radius"] + PARAMS["leg_cable"]
 
-    # The windjammer is the alternative to the vent carrier and shares its
-    # space, so it stays hidden in every documentation image.
+    # The windjammer is the alternative to the vent carrier and occupies the
+    # same space, so it stays hidden in every documentation image.
     set_visible(design, ["windjammer"])
-    written.append(shot(app, "mic-housing-assembly.png",
-                        eye=(300, 120, 300), target=(45, 70, 0)))
 
-    # Side elevation and the view up the mouth both need the PVC translucent.
-    # Without it the elbow is an opaque tube and the interior renders as a black
-    # hole: the recess, the holder and the vent port are all inside it.
-    set_opacity(design, "PVC", 0.30)
-    written.append(shot(app, "mic-housing-side.png",
-                        eye=(20, 70, 420), target=(20, 62, 0)))
+    written.append(shot(app, "tee-assembly.png",
+                        eye=(700, 430, 620), target=(77, 200, 0)))
 
-    # Straight up the mouth axis. This one needs a hand-framed orthographic
-    # camera - a fit would recentre on the whole elbow and look up the bend
-    # instead - so up is +Z here, the view direction being +Y.
-    written.append(shot(app, "mic-housing-mouth.png",
-                        eye=(0, -160, 0), target=(0, 30, 0), up=(0, 0, 1),
-                        extents=60.0))
+    # Same camera, PVC dropped to a quarter. Everything that matters is inside
+    # the pipe; opaque, the image is just two tubes.
+    set_opacity(design, "PVC", 0.25)
+    written.append(shot(app, "tee-cutaway.png",
+                        eye=(700, 430, 620), target=(77, 200, 0)))
+
+    # The Pi bay. Three-quarter rather than square-on: dead ahead renders the
+    # board and spine as flat rectangles with no depth cue at all.
+    written.append(shot(app, "tee-pi-bay.png",
+                        eye=(x_run + 270, 345, 265), target=(x_run, 250, 0),
+                        extents=120.0))
     set_opacity(design, "PVC", 1.0)
 
-    # Detail on the capsule and vent carrier. Hiding the elbow and the retainer
-    # clears the sight line; the holder stays because it is what traps the two
-    # of them together.
+    # Mic internals. Hiding the tee and the retainer clears the sight line; the
+    # holder stays because it is what traps the capsule and carrier together.
     set_visible(design, ["windjammer", "PVC", "retainer"])
-    written.append(shot(app, "mic-housing-detail.png",
+    written.append(shot(app, "tee-mic-detail.png",
                         eye=(60, 22, 70), target=(0, 36, 0), extents=22.0))
+
+    # Printed parts on their own - what you actually send to the slicer.
+    set_visible(design, ["PVC", "lav capsule", "windjammer", "cable",
+                         "vent carrier", "retainer", "capsule holder"])
+    written.append(shot(app, "tee-printed-sled.png",
+                        eye=(x_run + 240, 350, 260), target=(x_run, 250, 0)))
+
+    set_visible(design, ["PVC", "lav capsule", "windjammer", "cable", "Pi "])
+    written.append(shot(app, "tee-printed-mic.png",
+                        eye=(80, 66, 88), target=(0, 14, 0), extents=86.0))
+
     set_visible(design, ["windjammer"])
     return written
 
@@ -698,18 +1025,26 @@ def render_all(app, design):
 def run(_context: str):
     app = adsk.core.Application.get()
     doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)
-    doc.name = "AvianVisitors mic housing"
+    doc.name = "AvianVisitors reducing-tee station"
     design = adsk.fusion.Design.cast(app.activeProduct)
     design.designType = adsk.fusion.DesignTypes.ParametricDesignType
     root = design.rootComponent
 
-    build_elbow(root)
+    # The tee supersedes build_elbow: the branch is the same geometry, it just
+    # arrives integral to the fitting. build_elbow is kept in the tree for the
+    # mic-only variant but is not part of this assembly.
+    build_tee_body(root)
+
     build_capsule_holder(root)
     build_vent_carrier(root)
     build_retainer_and_lip(root)
     build_capsule(root)
     build_windjammer(root)
     build_cable(root)
+
+    build_pi_sled(root)
+    build_pi_board(root)
+    build_cable_riser(root)
 
     paint_all(app, design)
     for path in render_all(app, design):

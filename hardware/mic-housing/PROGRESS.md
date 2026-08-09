@@ -1,10 +1,13 @@
 # Mic housing Fusion build - progress
 
-**State: mic housing complete; tee assembly in progress.** The seven mic-housing
-bodies build, all four documentation PNGs are written, and every part below was
-checked against a render before being committed to disk. The reducing tee body
-is built and verified. Still outstanding for the tee: vented caps at both ends
-of the run, the Pi sled, and renders of the full assembly.
+**State: reducing-tee assembly complete.** Ten bodies build, six documentation
+PNGs are written, and every part below was checked against a render before being
+committed to disk.
+
+Both caps are **purchased, not printed** - an Oatey mushroom vent cap on top and
+a drilled, screened PVC cap below - so they are deliberately not modelled. The
+printed parts are the capsule holder, vent carrier, retainer/drip lip and Pi
+sled.
 
 `fusion_build.py` is the deliverable. It is `parts/*.py` concatenated in name
 order, separated by two blank lines and a `# ---- <filename>` banner:
@@ -44,7 +47,10 @@ Still to model: vented caps top and bottom, and the Pi sled.
 
 | Part | File | Evidence |
 |---|---|---|
-| PVC 4x4x1-1/2 reducing tee | `06_tee.py` | 681669 mm3, 11 faces, one body, bbox x[-24.1, 179.3] y[0, 400] z[+-57.1]. Renders as a 4" run open at both ends with the branch turning down, mouth facing -Y. |
+| PVC 4x4x1-1/2 reducing tee | `06_tee.py` | 685932 mm3, one body, bbox x[-28.08, 179.3] y[0, 400] z[+-57.15]. The x and y minima are the checks that matter: -28.08 is exactly the 56.16 hub radius, and y=0 means the mouth is still there. |
+| Pi sled | `07_pi_sled.py` | One welded body, 42570 mm3, bbox x[70.03, 174.27] y[200, 300] z[+-52.12]. Two ribs at 104.24 press-fit the 104.64 bore; six 26 mm cutouts removed 9557 mm3, matching 6 x pi/4 x 26^2 x 3 exactly. |
+| Pi board | `07_pi_sled.py` | Reference. 2730 mm3 = 65 x 30 x 1.4 exactly, standing off the spine at z 5.5..6.9. |
+| Cable riser | `07_pi_sled.py` | Reference. Runs the branch cable from where the sweep ends at the run axis (y=132.15) up to the lower rib (y=200). |
 | PVC 1-1/2" DWV 90 elbow | `01_elbow.py` | 126949 mm3, bbox x[-28.08, 122.15] y[0, 160.23] z[+-28.08]. Renders as a DWV 90 with a hub at each end, mouth facing -Y, cable leg +X. |
 | Capsule holder | `02_holder.py` | One joined body, 3029 mm3, y 32..38, aperture 80.8% open. Ring, three spokes and hub all read in the mouth render. |
 | Vent carrier | `03_vent_carrier.py` | 166.76 mm3 against a closed-form 166.76. Faces at y=29 (adhesive, 74.02 mm2, pierced only by the 2.4 port), y=30 (recess floor), y=32 (rim). |
@@ -138,13 +144,40 @@ Fusion 2704.1.36.
 * Screenshots taken through the MCP `screenshot` query with a `direction`
   argument come back unfitted and stale-looking. Set the camera from inside a
   script instead.
+* **A socket can only be cut into a hub.** `socket_id` (48.80) is larger than
+  `pipe_od` (48.26), so counterboring a bare swept branch does not make a socket
+  - it saws the mouth clean off, which shows up as the body's y minimum jumping
+  from 0 to `socket_depth`. Join a `socket_id + 2*wall` hub first, reopen the
+  through bore behind it, then cut the socket.
+* Shelling does not generalise from the elbow to the tee. A plain sweep has
+  exactly two planar faces so "shell every planar face" is safe; a tee junction
+  has none and the rule picks up the wrong set. Union the outer solids, union
+  the bores, subtract.
+* Give a cutting body a few mm of overshoot past its target. The leftover is
+  easy to account for (overshoot x section area) and it avoids coincident-face
+  boolean failures. The tee's 86016 mm3 discrepancy is exactly that.
+* Appearance names confirmed present: `Plastic - Glossy (White|Black|Green|
+  Yellow|Blue|Red)`, `Plastic - Matte (same set + Gray)`, `Plastic - Translucent
+  Matte (White|Gray|Green|Red|Blue)`, `Aluminum - Anodized Glossy (Grey|Blue|
+  Red)`, `Paint - Enamel Glossy (...)`. There is still no "PVC".
+* `set_visible` matches fragments as **substrings**, so they need care:
+  `"capsule"` also hides the capsule *holder*. Use `"lav capsule"`.
 
 ## Output
 
 `~/AvianVisitors/docs/img/`, all 2000x1500:
 
-* `mic-housing-assembly.png` - iso, opaque.
-* `mic-housing-side.png` - side elevation, elbow translucent, showing the
-  capsule at its true depth up the mouth.
-* `mic-housing-mouth.png` - orthographic, straight up the mouth axis.
-* `mic-housing-detail.png` - orthographic, capsule, holder and vent carrier.
+* `tee-assembly.png` - iso, opaque.
+* `tee-cutaway.png` - same camera, PVC at 25% opacity.
+* `tee-pi-bay.png` - the Pi bay, three-quarter. Square-on renders the board and
+  spine as flat rectangles with no depth cue, so the camera is deliberately off
+  axis.
+* `tee-mic-detail.png` - capsule, holder and vent carrier, tee hidden.
+* `tee-printed-sled.png` - the sled and board alone.
+* `tee-printed-mic.png` - the mic's printed parts alone.
+
+Printed parts render yellow rather than the green the SVG drawings use for
+"printed": green beside a green PCB reads as the same material.
+
+The older `mic-housing-*.png` renders are from the elbow-only build and are now
+stale.
