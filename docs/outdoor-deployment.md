@@ -4,27 +4,34 @@ Notes for running the mic outside year-round somewhere with real weather — wri
 for Minnesota (-30 °F winters, 95 °F/75 °F-dewpoint summers, ~50" snow, freeze/thaw
 cycles), but the reasoning holds anywhere north of the Mason-Dixon.
 
-**The short version: only the mic capsule goes outside.** The Pi, the frame, and the
-power supply stay indoors.
+**There are two builds here, and the cable length decides which one you get.**
 
----
+The USB lavalier in the BOM puts the sound card in the USB plug and the capsule on about
+6 ft of thin cable, and that 6 ft is the whole decision:
 
-## Why the split
+- **Indoor Pi.** If there's a spot inside within reach — a shelf at the window, the sash
+  above it — put the Pi there and pass only the capsule through the wall. The one thing
+  outdoors is a sealed electret, which handles -30 °F fine with a slight sensitivity drop.
+  Everything that actually fails outdoors (SD card, WiFi radio, power supply, e-ink panel)
+  stays in conditioned space. This is the easier build and you should take it if you can.
+- **Outdoor station.** If there isn't — a pole in the yard, a detached garage, a far
+  corner — the Pi has to live at the mic, and the whole thing goes in a
+  [reducing tee](#the-outdoor-station). That brings PoE, a grounded surge arrestor and
+  sun shading with it. Those stop being optional extras and become part of the design.
 
-The USB lavalier in the BOM puts the sound card in the USB plug and the capsule on
-~6 ft of thin cable. Take advantage of that: the Pi sits on a shelf at the window, the
-capsule goes through the wall or sash, and the only thing exposed to weather is a sealed
-electret capsule — which handles -30 °F fine, with a slight sensitivity drop.
+Don't try to split the difference by extending the mic instead of moving the Pi: active
+USB extensions past ~5 m on a line-level mic pick up noise.
 
-Everything that actually fails outdoors (SD card, WiFi radio, power supply, e-ink panel)
-stays in the conditioned space.
-
-If 6 ft isn't enough, move the Pi rather than extending the mic. Active USB extensions
-past ~5 m on a line-level mic pick up noise.
+**The mic housing is identical either way** — the elbow, the membrane, the holder, the
+vent carrier. Only the body it hangs off changes. Everything up to
+[the e-ink frame](#the-e-ink-frame-stays-inside) applies to both builds; the tee section
+covers what the outdoor station adds.
 
 ---
 
 ## Parts
+
+Common to both builds. The outdoor station adds [a few more](#the-outdoor-station).
 
 | Qty | Part | Approx | Notes |
 |-----|------|--------|-------|
@@ -33,7 +40,6 @@ past ~5 m on a line-level mic pick up noise.
 | 4 | GORE GAW112 acoustic vent | $10/set | [GroupGets][groupgets], sold as AudioMoth spares. |
 | 1 | 12" x 12" sheet, 12-mesh T-304 stainless | ~$12 | Covers all three screened points. **Not** galvanised hardware cloth. |
 | 1 | ePTFE membrane | ~$10 | Mouth closure, outboard of the mesh. |
-| 4 | CNC Kitchen M3 x 3 short heat-set inserts | ~$1 | Pi mounting in the sled. |
 | 1 | Conduit strap or hose clamp | ~$2 | Soffit mount. |
 | — | Exterior latex primer + light paint | ~$0 | PVC chalks under UV; light colour cuts solar gain. |
 
@@ -324,11 +330,9 @@ by the window anyway.
 
 ---
 
-## If the Pi really must go outside
+## The outdoor station
 
-The USB lavalier's cable is only about 6 ft, so if there is no indoor spot within that
-distance — a pole in the yard, a detached garage, a far corner — the Pi has to live at
-the mic. In that case put it in its **own** body, not in the mic's.
+When the Pi has to live at the mic, put it in its **own** body, not in the mic's.
 
 ![Section through a 3x3x1½ inch PVC reducing tee. The vertical 3 inch run holds a Pi on
 a printed sled, vented at the top for warm air out and at the bottom for cool air in and
@@ -361,7 +365,8 @@ Both caps are purchased, not printed:
 |-----|------|--------|-------|
 | 1 | Oatey mushroom vent cap, 3" | ~$10 | Top. Sheds rain, passes air. Check it ships with a screen. |
 | 1 | 3" PVC cap, drilled + screened | ~$5 | Bottom. **Never leave it solid** — see below. |
-| 1 | Stainless mesh + hose clamp | ~$3 | Screening for both ends. |
+| 4 | CNC Kitchen M3 x 3 short heat-set inserts | ~$1 | Pi mounting in the printed sled. |
+| — | Stainless hose clamps | ~$3 | Hold the screens at both cap ends. |
 
 Don't substitute an NDS drain grate at the bottom. Those fit **sewer-and-drain** pipe at
 about 4.215" OD; Schedule 40 / DWV is 4.500", so it will not fit.

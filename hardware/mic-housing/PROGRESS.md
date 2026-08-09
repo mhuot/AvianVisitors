@@ -191,5 +191,7 @@ Fusion 2704.1.36.
 Printed parts render yellow rather than the green the SVG drawings use for
 "printed": green beside a green PCB reads as the same material.
 
-The older `mic-housing-*.png` renders are from the elbow-only build and are now
-stale.
+The elbow-only build's renders have been deleted rather than left orphaned; the
+current `render_all` does not produce them. `01_elbow.py` itself stays, because
+the indoor-Pi build in the deployment guide uses a plain elbow rather than a
+tee, so it is a live variant and not dead code.
